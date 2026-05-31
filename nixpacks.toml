@@ -14,7 +14,7 @@ cmds = [
   ". /opt/venv/bin/activate && pip install -r requirements.txt huggingface-hub",
   ". /opt/venv/bin/activate && python -m spacy download en_core_web_sm",
   ". /opt/venv/bin/activate && python -m nltk.downloader -d /app/nltk_data punkt punkt_tab stopwords wordnet omw-1.4",
-  "mkdir -p /app/models && . /opt/venv/bin/activate && python << 'EOPY'\nimport os, zipfile\nfrom huggingface_hub import snapshot_download\nos.chdir('/tmp')\nsnapshot_download(repo_id='intellegentJonna/aird-models', repo_type='model', local_dir='.', local_dir_use_symlinks=False)\nif os.path.exists('aird-models.zip'):\n    with zipfile.ZipFile('aird-models.zip', 'r') as z:\n        z.extractall('.')\n    for item in os.listdir('aird-models'):\n        src = os.path.join('aird-models', item)\n        dst = os.path.join('/app/models', item)\n        if os.path.isdir(src):\n            os.system(f'cp -r {src} {dst}')\nprint('Models ready at /app/models')\nos.system('ls -la /app/models/')\nEOPY",
+  "mkdir -p /app/models && . /opt/venv/bin/activate && python << 'EOPY'\nimport os, zipfile\nfrom huggingface_hub import hf_hub_download\nprint('Downloading aird-models.zip from HF...')\nzip_path = hf_hub_download(repo_id='intellegentJonna/aird-models', filename='aird-models.zip', repo_type='model')\nprint(f'Downloaded to {zip_path}')\nprint('Extracting...')\nwith zipfile.ZipFile(zip_path, 'r') as z:\n    z.extractall('/tmp')\nprint('Copying to /app/models...')\nfor item in os.listdir('/tmp/aird-models'):\n    src = os.path.join('/tmp/aird-models', item)\n    dst = os.path.join('/app/models', item)\n    if os.path.isdir(src):\n        os.system(f'cp -r {src} {dst}')\nprint('Done! Contents of /app/models:')\nos.system('ls -lah /app/models/')\nEOPY",
 ]
 
 [start]
