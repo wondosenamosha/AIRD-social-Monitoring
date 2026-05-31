@@ -14,7 +14,7 @@ cmds = [
   ". /opt/venv/bin/activate && pip install -r requirements.txt huggingface-hub",
   ". /opt/venv/bin/activate && python -m spacy download en_core_web_sm",
   ". /opt/venv/bin/activate && python -m nltk.downloader -d /app/nltk_data punkt punkt_tab stopwords wordnet omw-1.4",
-  ". /opt/venv/bin/activate && python -c \"from huggingface_hub import snapshot_download; snapshot_download(repo_id='intellegentJonna/aird-models', repo_type='model', local_dir='/tmp/hf_models', local_dir_use_symlinks=False)\" && mkdir -p /app/models && cd /tmp/hf_models && unzip -q '*.zip' -d /app/models 2>/dev/null || true && cp -r /tmp/hf_models/*/ /app/models/ 2>/dev/null || true && ls -la /app/models/",
+  ". /opt/venv/bin/activate && python -c \"from huggingface_hub import snapshot_download; snapshot_download(repo_id='intellegentJonna/aird-models', repo_type='model', local_dir='/app/models', local_dir_use_symlinks=False)\" && cd /app/models && for f in *.zip; do unzip -q \"$f\" && rm \"$f\"; done && ls -la /app/models/",
 ]
 
 [start]
