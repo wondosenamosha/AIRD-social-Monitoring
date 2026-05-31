@@ -4,8 +4,8 @@
 (() => {
   const ALL_EMOTIONS = ["Normal","Stress","Anxiety","Personality Disorder",
                         "Bipolar","Depression","Suicidal"];
-  const COLORS = {Normal:"#34d399",Stress:"#fbbf24",Anxiety:"#60a5fa",
-    "Personality Disorder":"#a78bfa",Bipolar:"#f472b6",Depression:"#94a3b8",Suicidal:"#f87171"};
+  const COLORS = {Normal:"#0c3547",Stress:"#10656d",Anxiety:"#598f91",
+    "Personality Disorder":"#93b071",Bipolar:"#ede2cc",Depression:"#edae93",Suicidal:"#dd6670"};
 
   const state = {reddit:null, community:null, source:"reddit",
                  active:new Set(ALL_EMOTIONS)};
