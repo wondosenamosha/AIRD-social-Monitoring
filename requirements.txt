@@ -1,0 +1,12 @@
+# --- AIRD dashboard runtime dependencies (serving only) ---
+# PyTorch (CPU build) is installed separately in ../nixpacks.toml to avoid the
+# huge default CUDA wheel. Local dev: `pip install torch` once.
+flask==3.1.2
+gunicorn==23.0.0
+transformers>=4.40,<5
+safetensors>=0.4.0
+spacy>=3.7,<4
+nltk>=3.8
+contractions>=0.1.73
+numpy<2
+praw>=7.7          # Reddit API client for the "analyze a link" feature

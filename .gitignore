@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Env / secrets
+.env
+*.local
+
+# Large model weights (too big for GitHub — store externally)
+*.safetensors
+*.bin
+
+# SQLite WAL files
+*.db-shm
+*.db-wal

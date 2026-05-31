@@ -1,0 +1,2048 @@
+{
+  "meta": {
+    "generated_at": "2026-05-30T20:14:10.253412Z",
+    "date_start": "2026-02-25",
+    "date_end": "2026-05-15",
+    "subreddits": [
+      "Layoffs",
+      "cscareerquestions",
+      "technology"
+    ],
+    "model": "Ensemble (Track B) \u00b7 84.6% acc / 0.90 macro-F1",
+    "topic": "AI layoffs \u00b7 tech-worker mental-health signals"
+  },
+  "kpis": {
+    "total": 7306,
+    "high_risk": 1033,
+    "high_risk_pct": 14.1,
+    "at_risk_pct": 18.9,
+    "stable_pct": 65.5,
+    "avg_confidence": 65.2,
+    "subreddit_count": 3
+  },
+  "leaderboard": [
+    {
+      "model": "Stacking Ensemble",
+      "raw": "Ensemble",
+      "accuracy": 84.6,
+      "f1_macro": 90.2,
+      "f1_weighted": 84.6,
+      "live": false
+    },
+    {
+      "model": "MentalBERT",
+      "raw": "MentalBERT",
+      "accuracy": 81.9,
+      "f1_macro": 85.9,
+      "f1_weighted": 81.7,
+      "live": true
+    },
+    {
+      "model": "Mental-RoBERTa",
+      "raw": "RoBERTa",
+      "accuracy": 79.9,
+      "f1_macro": 83.9,
+      "f1_weighted": 79.7,
+      "live": true
+    },
+    {
+      "model": "LightGBM",
+      "raw": "LightGBM",
+      "accuracy": 78.9,
+      "f1_macro": 83.5,
+      "f1_weighted": 78.6,
+      "live": false
+    },
+    {
+      "model": "Custom Transformer",
+      "raw": "CustomTransformer",
+      "accuracy": 75.8,
+      "f1_macro": 79.0,
+      "f1_weighted": 75.6,
+      "live": false
+    },
+    {
+      "model": "Logistic Regression",
+      "raw": "LogReg",
+      "accuracy": 74.5,
+      "f1_macro": 76.0,
+      "f1_weighted": 74.1,
+      "live": false
+    }
+  ],
+  "emotion_distribution": [
+    {
+      "emotion": "Normal",
+      "count": 4785,
+      "pct": 65.5,
+      "color": "#34d399",
+      "emoji": "\ud83d\ude0a",
+      "risk": 0
+    },
+    {
+      "emotion": "Stress",
+      "count": 1138,
+      "pct": 15.6,
+      "color": "#fbbf24",
+      "emoji": "\ud83d\ude1f",
+      "risk": 1
+    },
+    {
+      "emotion": "Depression",
+      "count": 565,
+      "pct": 7.7,
+      "color": "#94a3b8",
+      "emoji": "\ud83d\ude14",
+      "risk": 3
+    },
+    {
+      "emotion": "Bipolar",
+      "count": 285,
+      "pct": 3.9,
+      "color": "#f472b6",
+      "emoji": "\ud83c\udfa2",
+      "risk": 3
+    },
+    {
+      "emotion": "Anxiety",
+      "count": 267,
+      "pct": 3.7,
+      "color": "#60a5fa",
+      "emoji": "\ud83d\ude30",
+      "risk": 2
+    },
+    {
+      "emotion": "Suicidal",
+      "count": 183,
+      "pct": 2.5,
+      "color": "#f87171",
+      "emoji": "\ud83c\udd98",
+      "risk": 4
+    },
+    {
+      "emotion": "Personality Disorder",
+      "count": 83,
+      "pct": 1.1,
+      "color": "#a78bfa",
+      "emoji": "\ud83c\udfad",
+      "risk": 2
+    }
+  ],
+  "timeline": [
+    {
+      "date": "2026-02-25",
+      "total": 4,
+      "counts": {
+        "Anxiety": 1,
+        "Bipolar": 1,
+        "Depression": 1,
+        "Normal": 1,
+        "Personality Disorder": 0,
+        "Stress": 0,
+        "Suicidal": 0
+      },
+      "at_risk": 3,
+      "high_risk": 2
+    },
+    {
+      "date": "2026-02-26",
+      "total": 11,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 0,
+        "Depression": 3,
+        "Normal": 2,
+        "Personality Disorder": 0,
+        "Stress": 6,
+        "Suicidal": 0
+      },
+      "at_risk": 3,
+      "high_risk": 3
+    },
+    {
+      "date": "2026-02-27",
+      "total": 15,
+      "counts": {
+        "Anxiety": 3,
+        "Bipolar": 1,
+        "Depression": 4,
+        "Normal": 4,
+        "Personality Disorder": 0,
+        "Stress": 3,
+        "Suicidal": 0
+      },
+      "at_risk": 8,
+      "high_risk": 5
+    },
+    {
+      "date": "2026-02-28",
+      "total": 5,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 1,
+        "Depression": 1,
+        "Normal": 3,
+        "Personality Disorder": 0,
+        "Stress": 0,
+        "Suicidal": 0
+      },
+      "at_risk": 2,
+      "high_risk": 2
+    },
+    {
+      "date": "2026-03-01",
+      "total": 8,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 0,
+        "Depression": 1,
+        "Normal": 2,
+        "Personality Disorder": 0,
+        "Stress": 5,
+        "Suicidal": 0
+      },
+      "at_risk": 1,
+      "high_risk": 1
+    },
+    {
+      "date": "2026-03-02",
+      "total": 10,
+      "counts": {
+        "Anxiety": 1,
+        "Bipolar": 0,
+        "Depression": 3,
+        "Normal": 4,
+        "Personality Disorder": 0,
+        "Stress": 2,
+        "Suicidal": 0
+      },
+      "at_risk": 4,
+      "high_risk": 3
+    },
+    {
+      "date": "2026-03-03",
+      "total": 11,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 0,
+        "Depression": 0,
+        "Normal": 2,
+        "Personality Disorder": 0,
+        "Stress": 7,
+        "Suicidal": 2
+      },
+      "at_risk": 2,
+      "high_risk": 2
+    },
+    {
+      "date": "2026-03-04",
+      "total": 8,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 1,
+        "Depression": 4,
+        "Normal": 1,
+        "Personality Disorder": 0,
+        "Stress": 2,
+        "Suicidal": 0
+      },
+      "at_risk": 5,
+      "high_risk": 5
+    },
+    {
+      "date": "2026-03-05",
+      "total": 7,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 1,
+        "Depression": 0,
+        "Normal": 4,
+        "Personality Disorder": 0,
+        "Stress": 2,
+        "Suicidal": 0
+      },
+      "at_risk": 1,
+      "high_risk": 1
+    },
+    {
+      "date": "2026-03-06",
+      "total": 15,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 4,
+        "Depression": 3,
+        "Normal": 4,
+        "Personality Disorder": 2,
+        "Stress": 2,
+        "Suicidal": 0
+      },
+      "at_risk": 9,
+      "high_risk": 7
+    },
+    {
+      "date": "2026-03-08",
+      "total": 4,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 1,
+        "Depression": 0,
+        "Normal": 2,
+        "Personality Disorder": 0,
+        "Stress": 1,
+        "Suicidal": 0
+      },
+      "at_risk": 1,
+      "high_risk": 1
+    },
+    {
+      "date": "2026-03-09",
+      "total": 10,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 0,
+        "Depression": 3,
+        "Normal": 3,
+        "Personality Disorder": 0,
+        "Stress": 4,
+        "Suicidal": 0
+      },
+      "at_risk": 3,
+      "high_risk": 3
+    },
+    {
+      "date": "2026-03-10",
+      "total": 8,
+      "counts": {
+        "Anxiety": 3,
+        "Bipolar": 0,
+        "Depression": 2,
+        "Normal": 1,
+        "Personality Disorder": 0,
+        "Stress": 2,
+        "Suicidal": 0
+      },
+      "at_risk": 5,
+      "high_risk": 2
+    },
+    {
+      "date": "2026-03-11",
+      "total": 9,
+      "counts": {
+        "Anxiety": 1,
+        "Bipolar": 1,
+        "Depression": 0,
+        "Normal": 4,
+        "Personality Disorder": 0,
+        "Stress": 2,
+        "Suicidal": 1
+      },
+      "at_risk": 3,
+      "high_risk": 2
+    },
+    {
+      "date": "2026-03-12",
+      "total": 11,
+      "counts": {
+        "Anxiety": 1,
+        "Bipolar": 1,
+        "Depression": 4,
+        "Normal": 3,
+        "Personality Disorder": 0,
+        "Stress": 2,
+        "Suicidal": 0
+      },
+      "at_risk": 6,
+      "high_risk": 5
+    },
+    {
+      "date": "2026-03-13",
+      "total": 28,
+      "counts": {
+        "Anxiety": 3,
+        "Bipolar": 1,
+        "Depression": 3,
+        "Normal": 16,
+        "Personality Disorder": 1,
+        "Stress": 3,
+        "Suicidal": 1
+      },
+      "at_risk": 9,
+      "high_risk": 5
+    },
+    {
+      "date": "2026-03-14",
+      "total": 50,
+      "counts": {
+        "Anxiety": 1,
+        "Bipolar": 0,
+        "Depression": 4,
+        "Normal": 32,
+        "Personality Disorder": 0,
+        "Stress": 12,
+        "Suicidal": 1
+      },
+      "at_risk": 6,
+      "high_risk": 5
+    },
+    {
+      "date": "2026-03-15",
+      "total": 49,
+      "counts": {
+        "Anxiety": 3,
+        "Bipolar": 3,
+        "Depression": 6,
+        "Normal": 29,
+        "Personality Disorder": 1,
+        "Stress": 7,
+        "Suicidal": 0
+      },
+      "at_risk": 13,
+      "high_risk": 9
+    },
+    {
+      "date": "2026-03-16",
+      "total": 78,
+      "counts": {
+        "Anxiety": 1,
+        "Bipolar": 5,
+        "Depression": 7,
+        "Normal": 49,
+        "Personality Disorder": 0,
+        "Stress": 16,
+        "Suicidal": 0
+      },
+      "at_risk": 13,
+      "high_risk": 12
+    },
+    {
+      "date": "2026-03-17",
+      "total": 67,
+      "counts": {
+        "Anxiety": 4,
+        "Bipolar": 2,
+        "Depression": 4,
+        "Normal": 37,
+        "Personality Disorder": 1,
+        "Stress": 17,
+        "Suicidal": 2
+      },
+      "at_risk": 13,
+      "high_risk": 8
+    },
+    {
+      "date": "2026-03-18",
+      "total": 101,
+      "counts": {
+        "Anxiety": 2,
+        "Bipolar": 4,
+        "Depression": 11,
+        "Normal": 65,
+        "Personality Disorder": 1,
+        "Stress": 16,
+        "Suicidal": 2
+      },
+      "at_risk": 20,
+      "high_risk": 17
+    },
+    {
+      "date": "2026-03-19",
+      "total": 67,
+      "counts": {
+        "Anxiety": 3,
+        "Bipolar": 3,
+        "Depression": 1,
+        "Normal": 46,
+        "Personality Disorder": 0,
+        "Stress": 12,
+        "Suicidal": 2
+      },
+      "at_risk": 9,
+      "high_risk": 6
+    },
+    {
+      "date": "2026-03-20",
+      "total": 99,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 3,
+        "Depression": 11,
+        "Normal": 66,
+        "Personality Disorder": 1,
+        "Stress": 16,
+        "Suicidal": 2
+      },
+      "at_risk": 17,
+      "high_risk": 16
+    },
+    {
+      "date": "2026-03-21",
+      "total": 60,
+      "counts": {
+        "Anxiety": 1,
+        "Bipolar": 1,
+        "Depression": 7,
+        "Normal": 37,
+        "Personality Disorder": 1,
+        "Stress": 12,
+        "Suicidal": 1
+      },
+      "at_risk": 11,
+      "high_risk": 9
+    },
+    {
+      "date": "2026-03-22",
+      "total": 30,
+      "counts": {
+        "Anxiety": 4,
+        "Bipolar": 0,
+        "Depression": 3,
+        "Normal": 17,
+        "Personality Disorder": 0,
+        "Stress": 5,
+        "Suicidal": 1
+      },
+      "at_risk": 8,
+      "high_risk": 4
+    },
+    {
+      "date": "2026-03-23",
+      "total": 43,
+      "counts": {
+        "Anxiety": 1,
+        "Bipolar": 3,
+        "Depression": 2,
+        "Normal": 23,
+        "Personality Disorder": 0,
+        "Stress": 13,
+        "Suicidal": 1
+      },
+      "at_risk": 7,
+      "high_risk": 6
+    },
+    {
+      "date": "2026-03-24",
+      "total": 62,
+      "counts": {
+        "Anxiety": 1,
+        "Bipolar": 5,
+        "Depression": 6,
+        "Normal": 33,
+        "Personality Disorder": 1,
+        "Stress": 14,
+        "Suicidal": 2
+      },
+      "at_risk": 15,
+      "high_risk": 13
+    },
+    {
+      "date": "2026-03-25",
+      "total": 40,
+      "counts": {
+        "Anxiety": 2,
+        "Bipolar": 2,
+        "Depression": 3,
+        "Normal": 15,
+        "Personality Disorder": 1,
+        "Stress": 16,
+        "Suicidal": 1
+      },
+      "at_risk": 9,
+      "high_risk": 6
+    },
+    {
+      "date": "2026-03-26",
+      "total": 16,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 2,
+        "Depression": 1,
+        "Normal": 6,
+        "Personality Disorder": 0,
+        "Stress": 6,
+        "Suicidal": 1
+      },
+      "at_risk": 4,
+      "high_risk": 4
+    },
+    {
+      "date": "2026-03-27",
+      "total": 8,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 0,
+        "Depression": 2,
+        "Normal": 1,
+        "Personality Disorder": 0,
+        "Stress": 5,
+        "Suicidal": 0
+      },
+      "at_risk": 2,
+      "high_risk": 2
+    },
+    {
+      "date": "2026-03-28",
+      "total": 4,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 1,
+        "Depression": 1,
+        "Normal": 0,
+        "Personality Disorder": 0,
+        "Stress": 2,
+        "Suicidal": 0
+      },
+      "at_risk": 2,
+      "high_risk": 2
+    },
+    {
+      "date": "2026-03-29",
+      "total": 3,
+      "counts": {
+        "Anxiety": 1,
+        "Bipolar": 0,
+        "Depression": 0,
+        "Normal": 0,
+        "Personality Disorder": 0,
+        "Stress": 2,
+        "Suicidal": 0
+      },
+      "at_risk": 1,
+      "high_risk": 0
+    },
+    {
+      "date": "2026-03-30",
+      "total": 12,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 1,
+        "Depression": 2,
+        "Normal": 3,
+        "Personality Disorder": 0,
+        "Stress": 6,
+        "Suicidal": 0
+      },
+      "at_risk": 3,
+      "high_risk": 3
+    },
+    {
+      "date": "2026-03-31",
+      "total": 6,
+      "counts": {
+        "Anxiety": 1,
+        "Bipolar": 0,
+        "Depression": 0,
+        "Normal": 3,
+        "Personality Disorder": 0,
+        "Stress": 2,
+        "Suicidal": 0
+      },
+      "at_risk": 1,
+      "high_risk": 0
+    },
+    {
+      "date": "2026-04-01",
+      "total": 23,
+      "counts": {
+        "Anxiety": 2,
+        "Bipolar": 3,
+        "Depression": 1,
+        "Normal": 13,
+        "Personality Disorder": 0,
+        "Stress": 4,
+        "Suicidal": 0
+      },
+      "at_risk": 6,
+      "high_risk": 4
+    },
+    {
+      "date": "2026-04-02",
+      "total": 17,
+      "counts": {
+        "Anxiety": 2,
+        "Bipolar": 1,
+        "Depression": 2,
+        "Normal": 5,
+        "Personality Disorder": 0,
+        "Stress": 7,
+        "Suicidal": 0
+      },
+      "at_risk": 5,
+      "high_risk": 3
+    },
+    {
+      "date": "2026-04-03",
+      "total": 12,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 3,
+        "Depression": 1,
+        "Normal": 7,
+        "Personality Disorder": 0,
+        "Stress": 1,
+        "Suicidal": 0
+      },
+      "at_risk": 4,
+      "high_risk": 4
+    },
+    {
+      "date": "2026-04-04",
+      "total": 4,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 0,
+        "Depression": 1,
+        "Normal": 3,
+        "Personality Disorder": 0,
+        "Stress": 0,
+        "Suicidal": 0
+      },
+      "at_risk": 1,
+      "high_risk": 1
+    },
+    {
+      "date": "2026-04-05",
+      "total": 6,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 0,
+        "Depression": 1,
+        "Normal": 2,
+        "Personality Disorder": 0,
+        "Stress": 3,
+        "Suicidal": 0
+      },
+      "at_risk": 1,
+      "high_risk": 1
+    },
+    {
+      "date": "2026-04-06",
+      "total": 2,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 0,
+        "Depression": 0,
+        "Normal": 1,
+        "Personality Disorder": 0,
+        "Stress": 1,
+        "Suicidal": 0
+      },
+      "at_risk": 0,
+      "high_risk": 0
+    },
+    {
+      "date": "2026-04-07",
+      "total": 4,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 0,
+        "Depression": 1,
+        "Normal": 1,
+        "Personality Disorder": 0,
+        "Stress": 2,
+        "Suicidal": 0
+      },
+      "at_risk": 1,
+      "high_risk": 1
+    },
+    {
+      "date": "2026-04-08",
+      "total": 7,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 0,
+        "Depression": 0,
+        "Normal": 5,
+        "Personality Disorder": 0,
+        "Stress": 2,
+        "Suicidal": 0
+      },
+      "at_risk": 0,
+      "high_risk": 0
+    },
+    {
+      "date": "2026-04-09",
+      "total": 15,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 1,
+        "Depression": 2,
+        "Normal": 7,
+        "Personality Disorder": 0,
+        "Stress": 5,
+        "Suicidal": 0
+      },
+      "at_risk": 3,
+      "high_risk": 3
+    },
+    {
+      "date": "2026-04-10",
+      "total": 11,
+      "counts": {
+        "Anxiety": 1,
+        "Bipolar": 0,
+        "Depression": 0,
+        "Normal": 2,
+        "Personality Disorder": 2,
+        "Stress": 6,
+        "Suicidal": 0
+      },
+      "at_risk": 3,
+      "high_risk": 0
+    },
+    {
+      "date": "2026-04-11",
+      "total": 5,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 1,
+        "Depression": 1,
+        "Normal": 1,
+        "Personality Disorder": 1,
+        "Stress": 1,
+        "Suicidal": 0
+      },
+      "at_risk": 3,
+      "high_risk": 2
+    },
+    {
+      "date": "2026-04-12",
+      "total": 8,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 0,
+        "Depression": 2,
+        "Normal": 3,
+        "Personality Disorder": 1,
+        "Stress": 2,
+        "Suicidal": 0
+      },
+      "at_risk": 3,
+      "high_risk": 2
+    },
+    {
+      "date": "2026-04-13",
+      "total": 10,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 1,
+        "Depression": 4,
+        "Normal": 2,
+        "Personality Disorder": 0,
+        "Stress": 3,
+        "Suicidal": 0
+      },
+      "at_risk": 5,
+      "high_risk": 5
+    },
+    {
+      "date": "2026-04-14",
+      "total": 9,
+      "counts": {
+        "Anxiety": 0,
+        "Bipolar": 0,
+        "Depression": 2,
+        "Normal": 4,
+        "Personality Disorder": 0,
+        "Stress": 2,
+        "Suicidal": 1
+      },
+      "at_risk": 3,
+      "high_risk": 3
+    },
+    {
+      "date": "2026-04-15",
+      "total": 15,
+      "counts": {
+        "Anxiety": 2,
+        "Bipolar": 0,
+        "Depression": 3,
+        "Normal": 5,
+        "Personality Disorder": 0,
+        "Stress": 5,
+        "Suicidal": 0
+      },
+      "at_risk": 5,
+      "high_risk": 3
+    },
+    {
+      "date": "2026-04-16",
+      "total": 16,
+      "counts": {
+        "Anxiety": 2,
+        "Bipolar": 1,
+        "Depression": 1,
+        "Normal": 7,
+        "Personality Disorder": 0,
+        "Stress": 5,
+        "Suicidal": 0
+      },
+      "at_risk": 4,
+      "high_risk": 2
+    },
+    {
+      "date": "2026-04-17",
+      "total": 25,
+      "counts": {
+        "Anxiety": 5,
+        "Bipolar": 2,
+        "Depression": 2,
+        "Normal": 8,
+        "Personality Disorder": 2,
+        "Stress": 6,
+        "Suicidal": 0
+      },
+      "at_risk": 11,
+      "high_risk": 4
+    },
+    {
+      "date": "2026-04-18",
+      "total": 99,
+      "counts": {
+        "Anxiety": 2,
+        "Bipolar": 2,
+        "Depression": 6,
+        "Normal": 58,
+        "Personality Disorder": 2,
+        "Stress": 24,
+        "Suicidal": 5
+      },
+      "at_risk": 17,
+      "high_risk": 13
+    },
+    {
+      "date": "2026-04-19",
+      "total": 97,
+      "counts": {
+        "Anxiety": 3,
+        "Bipolar": 4,
+        "Depression": 12,
+        "Normal": 56,
+        "Personality Disorder": 1,
+        "Stress": 19,
+        "Suicidal": 2
+      },
+      "at_risk": 22,
+      "high_risk": 18
+    },
+    {
+      "date": "2026-04-20",
+      "total": 147,
+      "counts": {
+        "Anxiety": 3,
+        "Bipolar": 10,
+        "Depression": 3,
+        "Normal": 97,
+        "Personality Disorder": 2,
+        "Stress": 31,
+        "Suicidal": 1
+      },
+      "at_risk": 19,
+      "high_risk": 14
+    },
+    {
+      "date": "2026-04-21",
+      "total": 194,
+      "counts": {
+        "Anxiety": 11,
+        "Bipolar": 3,
+        "Depression": 12,
+        "Normal": 133,
+        "Personality Disorder": 2,
+        "Stress": 30,
+        "Suicidal": 3
+      },
+      "at_risk": 31,
+      "high_risk": 18
+    },
+    {
+      "date": "2026-04-22",
+      "total": 156,
+      "counts": {
+        "Anxiety": 5,
+        "Bipolar": 6,
+        "Depression": 10,
+        "Normal": 98,
+        "Personality Disorder": 1,
+        "Stress": 33,
+        "Suicidal": 3
+      },
+      "at_risk": 25,
+      "high_risk": 19
+    },
+    {
+      "date": "2026-04-23",
+      "total": 225,
+      "counts": {
+        "Anxiety": 7,
+        "Bipolar": 10,
+        "Depression": 18,
+        "Normal": 151,
+        "Personality Disorder": 1,
+        "Stress": 35,
+        "Suicidal": 3
+      },
+      "at_risk": 39,
+      "high_risk": 31
+    },
+    {
+      "date": "2026-04-24",
+      "total": 126,
+      "counts": {
+        "Anxiety": 9,
+        "Bipolar": 4,
+        "Depression": 11,
+        "Normal": 68,
+        "Personality Disorder": 0,
+        "Stress": 29,
+        "Suicidal": 5
+      },
+      "at_risk": 29,
+      "high_risk": 20
+    },
+    {
+      "date": "2026-04-25",
+      "total": 20,
+      "counts": {
+        "Anxiety": 1,
+        "Bipolar": 4,
+        "Depression": 2,
+        "Normal": 9,
+        "Personality Disorder": 0,
+        "Stress": 4,
+        "Suicidal": 0
+      },
+      "at_risk": 7,
+      "high_risk": 6
+    },
+    {
+      "date": "2026-04-26",
+      "total": 23,
+      "counts": {
+        "Anxiety": 3,
+        "Bipolar": 0,
+        "Depression": 3,
+        "Normal": 10,
+        "Personality Disorder": 0,
+        "Stress": 7,
+        "Suicidal": 0
+      },
+      "at_risk": 6,
+      "high_risk": 3
+    },
+    {
+      "date": "2026-04-27",
+      "total": 100,
+      "counts": {
+        "Anxiety": 6,
+        "Bipolar": 7,
+        "Depression": 9,
+        "Normal": 54,
+        "Personality Disorder": 2,
+        "Stress": 22,
+        "Suicidal": 0
+      },
+      "at_risk": 24,
+      "high_risk": 16
+    },
+    {
+      "date": "2026-04-28",
+      "total": 130,
+      "counts": {
+        "Anxiety": 4,
+        "Bipolar": 4,
+        "Depression": 11,
+        "Normal": 81,
+        "Personality Disorder": 2,
+        "Stress": 25,
+        "Suicidal": 3
+      },
+      "at_risk": 24,
+      "high_risk": 18
+    },
+    {
+      "date": "2026-04-29",
+      "total": 290,
+      "counts": {
+        "Anxiety": 10,
+        "Bipolar": 8,
+        "Depression": 19,
+        "Normal": 196,
+        "Personality Disorder": 1,
+        "Stress": 40,
+        "Suicidal": 16
+      },
+      "at_risk": 54,
+      "high_risk": 43
+    },
+    {
+      "date": "2026-04-30",
+      "total": 222,
+      "counts": {
+        "Anxiety": 10,
+        "Bipolar": 5,
+        "Depression": 6,
+        "Normal": 167,
+        "Personality Disorder": 1,
+        "Stress": 30,
+        "Suicidal": 3
+      },
+      "at_risk": 25,
+      "high_risk": 14
+    },
+    {
+      "date": "2026-05-01",
+      "total": 276,
+      "counts": {
+        "Anxiety": 12,
+        "Bipolar": 21,
+        "Depression": 18,
+        "Normal": 168,
+        "Personality Disorder": 4,
+        "Stress": 42,
+        "Suicidal": 11
+      },
+      "at_risk": 66,
+      "high_risk": 50
+    },
+    {
+      "date": "2026-05-02",
+      "total": 259,
+      "counts": {
+        "Anxiety": 11,
+        "Bipolar": 13,
+        "Depression": 21,
+        "Normal": 171,
+        "Personality Disorder": 1,
+        "Stress": 36,
+        "Suicidal": 6
+      },
+      "at_risk": 52,
+      "high_risk": 40
+    },
+    {
+      "date": "2026-05-03",
+      "total": 111,
+      "counts": {
+        "Anxiety": 6,
+        "Bipolar": 4,
+        "Depression": 12,
+        "Normal": 66,
+        "Personality Disorder": 1,
+        "Stress": 17,
+        "Suicidal": 5
+      },
+      "at_risk": 28,
+      "high_risk": 21
+    },
+    {
+      "date": "2026-05-04",
+      "total": 278,
+      "counts": {
+        "Anxiety": 13,
+        "Bipolar": 11,
+        "Depression": 25,
+        "Normal": 192,
+        "Personality Disorder": 2,
+        "Stress": 29,
+        "Suicidal": 6
+      },
+      "at_risk": 57,
+      "high_risk": 42
+    },
+    {
+      "date": "2026-05-05",
+      "total": 297,
+      "counts": {
+        "Anxiety": 8,
+        "Bipolar": 10,
+        "Depression": 16,
+        "Normal": 206,
+        "Personality Disorder": 5,
+        "Stress": 47,
+        "Suicidal": 5
+      },
+      "at_risk": 44,
+      "high_risk": 31
+    },
+    {
+      "date": "2026-05-06",
+      "total": 416,
+      "counts": {
+        "Anxiety": 13,
+        "Bipolar": 14,
+        "Depression": 23,
+        "Normal": 320,
+        "Personality Disorder": 0,
+        "Stress": 34,
+        "Suicidal": 12
+      },
+      "at_risk": 62,
+      "high_risk": 49
+    },
+    {
+      "date": "2026-05-07",
+      "total": 444,
+      "counts": {
+        "Anxiety": 13,
+        "Bipolar": 13,
+        "Depression": 24,
+        "Normal": 316,
+        "Personality Disorder": 7,
+        "Stress": 57,
+        "Suicidal": 14
+      },
+      "at_risk": 71,
+      "high_risk": 51
+    },
+    {
+      "date": "2026-05-08",
+      "total": 478,
+      "counts": {
+        "Anxiety": 13,
+        "Bipolar": 8,
+        "Depression": 41,
+        "Normal": 333,
+        "Personality Disorder": 13,
+        "Stress": 57,
+        "Suicidal": 13
+      },
+      "at_risk": 88,
+      "high_risk": 62
+    },
+    {
+      "date": "2026-05-09",
+      "total": 292,
+      "counts": {
+        "Anxiety": 5,
+        "Bipolar": 5,
+        "Depression": 14,
+        "Normal": 223,
+        "Personality Disorder": 5,
+        "Stress": 30,
+        "Suicidal": 10
+      },
+      "at_risk": 39,
+      "high_risk": 29
+    },
+    {
+      "date": "2026-05-10",
+      "total": 125,
+      "counts": {
+        "Anxiety": 2,
+        "Bipolar": 3,
+        "Depression": 14,
+        "Normal": 88,
+        "Personality Disorder": 3,
+        "Stress": 14,
+        "Suicidal": 1
+      },
+      "at_risk": 23,
+      "high_risk": 18
+    },
+    {
+      "date": "2026-05-11",
+      "total": 313,
+      "counts": {
+        "Anxiety": 6,
+        "Bipolar": 5,
+        "Depression": 24,
+        "Normal": 238,
+        "Personality Disorder": 3,
+        "Stress": 25,
+        "Suicidal": 12
+      },
+      "at_risk": 50,
+      "high_risk": 41
+    },
+    {
+      "date": "2026-05-12",
+      "total": 228,
+      "counts": {
+        "Anxiety": 10,
+        "Bipolar": 11,
+        "Depression": 21,
+        "Normal": 157,
+        "Personality Disorder": 0,
+        "Stress": 26,
+        "Suicidal": 3
+      },
+      "at_risk": 45,
+      "high_risk": 35
+    },
+    {
+      "date": "2026-05-13",
+      "total": 439,
+      "counts": {
+        "Anxiety": 12,
+        "Bipolar": 18,
+        "Depression": 30,
+        "Normal": 302,
+        "Personality Disorder": 1,
+        "Stress": 65,
+        "Suicidal": 11
+      },
+      "at_risk": 72,
+      "high_risk": 59
+    },
+    {
+      "date": "2026-05-14",
+      "total": 324,
+      "counts": {
+        "Anxiety": 13,
+        "Bipolar": 19,
+        "Depression": 27,
+        "Normal": 205,
+        "Personality Disorder": 7,
+        "Stress": 48,
+        "Suicidal": 5
+      },
+      "at_risk": 71,
+      "high_risk": 51
+    },
+    {
+      "date": "2026-05-15",
+      "total": 49,
+      "counts": {
+        "Anxiety": 4,
+        "Bipolar": 2,
+        "Depression": 6,
+        "Normal": 28,
+        "Personality Disorder": 0,
+        "Stress": 5,
+        "Suicidal": 4
+      },
+      "at_risk": 16,
+      "high_risk": 12
+    }
+  ],
+  "by_subreddit": [
+    {
+      "subreddit": "cscareerquestions",
+      "total": 3022,
+      "counts": {
+        "Anxiety": 134,
+        "Bipolar": 124,
+        "Depression": 269,
+        "Normal": 1852,
+        "Personality Disorder": 52,
+        "Stress": 531,
+        "Suicidal": 60
+      },
+      "stable_pct": 61.3,
+      "at_risk_pct": 21.1,
+      "high_risk_pct": 15.0
+    },
+    {
+      "subreddit": "Layoffs",
+      "total": 2589,
+      "counts": {
+        "Anxiety": 95,
+        "Bipolar": 137,
+        "Depression": 245,
+        "Normal": 1467,
+        "Personality Disorder": 24,
+        "Stress": 561,
+        "Suicidal": 60
+      },
+      "stable_pct": 56.7,
+      "at_risk_pct": 21.7,
+      "high_risk_pct": 17.1
+    },
+    {
+      "subreddit": "technology",
+      "total": 1695,
+      "counts": {
+        "Anxiety": 38,
+        "Bipolar": 24,
+        "Depression": 51,
+        "Normal": 1466,
+        "Personality Disorder": 7,
+        "Stress": 46,
+        "Suicidal": 63
+      },
+      "stable_pct": 86.5,
+      "at_risk_pct": 10.8,
+      "high_risk_pct": 8.1
+    }
+  ],
+  "sources": {
+    "comment": 5426,
+    "post": 1880
+  },
+  "confidence_buckets": [
+    {
+      "range": "<40%",
+      "count": 856
+    },
+    {
+      "range": "40-55%",
+      "count": 1616
+    },
+    {
+      "range": "55-70%",
+      "count": 1589
+    },
+    {
+      "range": "70-85%",
+      "count": 1731
+    },
+    {
+      "range": "85-100%",
+      "count": 1514
+    }
+  ],
+  "topics": [
+    {
+      "term": "laid",
+      "count": 669,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "new",
+      "count": 667,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "companies",
+      "count": 603,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "need",
+      "count": 594,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "tech",
+      "count": 544,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "experience",
+      "count": 539,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "months",
+      "count": 532,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "jobs",
+      "count": 521,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "working",
+      "count": 502,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "lot",
+      "count": 493,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "better",
+      "count": 480,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "actually",
+      "count": 476,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "market",
+      "count": 474,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "feel",
+      "count": 468,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "layoffs",
+      "count": 468,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "use",
+      "count": 454,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "did",
+      "count": 445,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "role",
+      "count": 402,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "code",
+      "count": 383,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "looking",
+      "count": 381,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "sure",
+      "count": 368,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "start",
+      "count": 368,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "long",
+      "count": 365,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "pay",
+      "count": 364,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "money",
+      "count": 359,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "team",
+      "count": 359,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "software",
+      "count": 341,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "real",
+      "count": 340,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "level",
+      "count": 335,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "roles",
+      "count": 328,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "trying",
+      "count": 327,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "data",
+      "count": 326,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "help",
+      "count": 325,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "resume",
+      "count": 321,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "probably",
+      "count": 318,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "career",
+      "count": 317,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "look",
+      "count": 315,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "big",
+      "count": 312,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "interview",
+      "count": 303,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "different",
+      "count": 300,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "best",
+      "count": 296,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "does",
+      "count": 296,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "week",
+      "count": 294,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "let",
+      "count": 294,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "hard",
+      "count": 294,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "point",
+      "count": 289,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "using",
+      "count": 289,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "end",
+      "count": 288,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "ago",
+      "count": 286,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "interviews",
+      "count": 285,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "offer",
+      "count": 284,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "manager",
+      "count": 283,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "life",
+      "count": 278,
+      "emotion": "Depression",
+      "color": "#94a3b8"
+    },
+    {
+      "term": "bad",
+      "count": 278,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "advice",
+      "count": 278,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "days",
+      "count": 272,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "maybe",
+      "count": 270,
+      "emotion": "Normal",
+      "color": "#34d399"
+    },
+    {
+      "term": "layoff",
+      "count": 269,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "started",
+      "count": 268,
+      "emotion": "Stress",
+      "color": "#fbbf24"
+    },
+    {
+      "term": "pretty",
+      "count": 266,
+      "emotion": "Normal",
+      "color": "#34d399"
+    }
+  ],
+  "top_mentions": [
+    {
+      "text": "Students Boo Commencement Speaker After She Calls AI the \u2018Next Industrial Revolution\u2019",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Normal",
+      "emoji": "\ud83d\ude0a",
+      "color": "#34d399",
+      "risk": 0,
+      "confidence": 91.1,
+      "score": 35495,
+      "date": "2026-05-11"
+    },
+    {
+      "text": "AI data centers face increasing complaints about inaudible but 'felt' infrasound \u2014 citizens complain high- and low-frequency sounds do not register on decibel meters but cause adverse health effects",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Anxiety",
+      "emoji": "\ud83d\ude30",
+      "color": "#60a5fa",
+      "risk": 2,
+      "confidence": 41.1,
+      "score": 33289,
+      "date": "2026-05-10"
+    },
+    {
+      "text": "Data center drained 30 million gallons of water without reporting or paying for it, investigation reveals",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Normal",
+      "emoji": "\ud83d\ude0a",
+      "color": "#34d399",
+      "risk": 0,
+      "confidence": 65.1,
+      "score": 31540,
+      "date": "2026-05-13"
+    },
+    {
+      "text": "Princeton scraps honor code and will supervise exams for first time in 133 years because of AI",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Normal",
+      "emoji": "\ud83d\ude0a",
+      "color": "#34d399",
+      "risk": 0,
+      "confidence": 89.2,
+      "score": 31536,
+      "date": "2026-05-14"
+    },
+    {
+      "text": "\u2018The cost of compute is far beyond the costs of the employees\u2019: Nvidia exec says right now AI is more expensive than paying human workers",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Normal",
+      "emoji": "\ud83d\ude0a",
+      "color": "#34d399",
+      "risk": 0,
+      "confidence": 88.7,
+      "score": 28793,
+      "date": "2026-04-29"
+    },
+    {
+      "text": "People Would Rather Have Nuclear Power Plants In Their Area Than AI Data Centers",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Normal",
+      "emoji": "\ud83d\ude0a",
+      "color": "#34d399",
+      "risk": 0,
+      "confidence": 76.6,
+      "score": 26622,
+      "date": "2026-05-14"
+    },
+    {
+      "text": "Meta contractor fires 1,100 AI trainers after they revealed Ray-Ban glasses recorded private and intimate footage",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Normal",
+      "emoji": "\ud83d\ude0a",
+      "color": "#34d399",
+      "risk": 0,
+      "confidence": 88.7,
+      "score": 22899,
+      "date": "2026-05-01"
+    },
+    {
+      "text": "A data center drained 30M gallons of water unnoticed \u2014 until residents complained about low water pressure",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Normal",
+      "emoji": "\ud83d\ude0a",
+      "color": "#34d399",
+      "risk": 0,
+      "confidence": 61.1,
+      "score": 22622,
+      "date": "2026-05-09"
+    },
+    {
+      "text": "AI data center project secretly sucked 29 million gallons of water over 15 months before detected by residents complaining about low water pressure \u2014 officials refuse to fine",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Normal",
+      "emoji": "\ud83d\ude0a",
+      "color": "#34d399",
+      "risk": 0,
+      "confidence": 63.3,
+      "score": 21458,
+      "date": "2026-05-11"
+    },
+    {
+      "text": "AI isn't paying off in the way companies think. Layoffs driven by automation are failing to generate returns, study finds",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Normal",
+      "emoji": "\ud83d\ude0a",
+      "color": "#34d399",
+      "risk": 0,
+      "confidence": 50.0,
+      "score": 19404,
+      "date": "2026-05-12"
+    },
+    {
+      "text": "Mark Zuckerberg \u2018Personally Authorized and Actively Encouraged\u2019 Meta\u2019s Massive Copyright Infringement to Train AI Systems, Publishers and Scott Turow Allege in Lawsuit",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Normal",
+      "emoji": "\ud83d\ude0a",
+      "color": "#34d399",
+      "risk": 0,
+      "confidence": 84.2,
+      "score": 19151,
+      "date": "2026-05-05"
+    },
+    {
+      "text": "A Michigan farm town voted down plans for a giant OpenAI-Oracle data center. Weeks later, construction began",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Normal",
+      "emoji": "\ud83d\ude0a",
+      "color": "#34d399",
+      "risk": 0,
+      "confidence": 94.1,
+      "score": 18770,
+      "date": "2026-05-06"
+    },
+    {
+      "text": "Claude AI agent\u2019s confession after deleting a firm\u2019s entire database: \u2018I violated every principle I was given\u2019",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Suicidal",
+      "emoji": "\ud83c\udd98",
+      "color": "#f87171",
+      "risk": 4,
+      "confidence": 33.5,
+      "score": 16918,
+      "date": "2026-04-29"
+    },
+    {
+      "text": "Kevin O\u2019Leary\u2019s proposed 9GW \"hyperscale\" AI data center in Utah will consume double the state's entire electricity usage and generate the waste heat of 23 atom bombs a day.",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Normal",
+      "emoji": "\ud83d\ude0a",
+      "color": "#34d399",
+      "risk": 0,
+      "confidence": 87.9,
+      "score": 14574,
+      "date": "2026-05-09"
+    }
+  ],
+  "high_risk_samples": [
+    {
+      "text": "I know I'm being hyperbolic, but this sounds like the Monopoly of this generations economic depression.",
+      "subreddit": "Layoffs",
+      "source": "comment",
+      "emotion": "Depression",
+      "emoji": "\ud83d\ude14",
+      "color": "#94a3b8",
+      "risk": 3,
+      "confidence": 93.6,
+      "score": 12,
+      "date": "2026-03-18"
+    },
+    {
+      "text": "hey all, the entry-level job search has been kinda brutal lately. feels like everything wants a few years of experience and there just aren\u2019t that many roles I got tired of scrolling through job boards every day, so i tried building somethi\u2026",
+      "subreddit": "cscareerquestions",
+      "source": "post",
+      "emotion": "Depression",
+      "emoji": "\ud83d\ude14",
+      "color": "#94a3b8",
+      "risk": 3,
+      "confidence": 85.6,
+      "score": 7,
+      "date": "2026-05-05"
+    },
+    {
+      "text": "I am going through a layoff. I want to go for a walk, get my diet and schedule right, but I don\u2019t want to do anything. How do I get myself to get out? I keep thinking I should just stop hoping for something to come along and help. It feels \u2026",
+      "subreddit": "Layoffs",
+      "source": "post",
+      "emotion": "Depression",
+      "emoji": "\ud83d\ude14",
+      "color": "#94a3b8",
+      "risk": 3,
+      "confidence": 85.2,
+      "score": 21,
+      "date": "2026-03-21"
+    },
+    {
+      "text": "I was listening to The diary of a CEO episode on passive income with CHRIS KOERNER and was wondering, if I should spend some time on starting something to get by? I don't think there will be any relief from this cycle of being laid off from\u2026",
+      "subreddit": "Layoffs",
+      "source": "post",
+      "emotion": "Bipolar",
+      "emoji": "\ud83c\udfa2",
+      "color": "#f472b6",
+      "risk": 3,
+      "confidence": 84.6,
+      "score": 6,
+      "date": "2026-03-06"
+    },
+    {
+      "text": "I got laid off 6 months ago, found a job, and I\u2019m still depressed. I even got a pay bump. It just does something to you mentally. It really put me in a nihilistic state of mind. I work hard, but it feels like it\u2019s just a front.",
+      "subreddit": "Layoffs",
+      "source": "comment",
+      "emotion": "Depression",
+      "emoji": "\ud83d\ude14",
+      "color": "#94a3b8",
+      "risk": 3,
+      "confidence": 83.1,
+      "score": 96,
+      "date": "2026-05-04"
+    },
+    {
+      "text": "Hope is not a strategy. Work the job while you think bigger about how to design a compelling life for yourself. It\u2019s not easy. But once you take action depression disappears.",
+      "subreddit": "Layoffs",
+      "source": "comment",
+      "emotion": "Depression",
+      "emoji": "\ud83d\ude14",
+      "color": "#94a3b8",
+      "risk": 3,
+      "confidence": 82.9,
+      "score": 9,
+      "date": "2026-05-04"
+    },
+    {
+      "text": "\u201cThat\u2019s not just a bump\u2014it\u2019s a structural change\u201d F\u2022\u2022\u2022\u2022\u2022\u2022 kill me now",
+      "subreddit": "cscareerquestions",
+      "source": "comment",
+      "emotion": "Suicidal",
+      "emoji": "\ud83c\udd98",
+      "color": "#f87171",
+      "risk": 4,
+      "confidence": 81.3,
+      "score": 24,
+      "date": "2026-04-21"
+    },
+    {
+      "text": "Dunno. But if I keep failing I'll be under a bridge soon enough. (Just applied to two more jobs today. Dunno if anything will work.) In any case, sorry to always be so depressed. I wish you the best of luck. Cordially, ***Mike D***",
+      "subreddit": "Layoffs",
+      "source": "comment",
+      "emotion": "Depression",
+      "emoji": "\ud83d\ude14",
+      "color": "#94a3b8",
+      "risk": 3,
+      "confidence": 81.2,
+      "score": 2,
+      "date": "2026-05-05"
+    },
+    {
+      "text": "New Therapy Rewires the Brain To Restore Joy in Depression Patients",
+      "subreddit": "technology",
+      "source": "post",
+      "emotion": "Depression",
+      "emoji": "\ud83d\ude14",
+      "color": "#94a3b8",
+      "risk": 3,
+      "confidence": 81.0,
+      "score": 27,
+      "date": "2026-05-12"
+    },
+    {
+      "text": "I'm close to 15 YOE (40/60 full time/self-employed), very anti-AI, and I'm considering a future where I no longer do software development. I don't feel at risk of getting out skilled by most people, but I know that if I'm forced to adopt AI\u2026",
+      "subreddit": "cscareerquestions",
+      "source": "comment",
+      "emotion": "Depression",
+      "emoji": "\ud83d\ude14",
+      "color": "#94a3b8",
+      "risk": 3,
+      "confidence": 80.5,
+      "score": 14,
+      "date": "2026-05-11"
+    }
+  ]
+}

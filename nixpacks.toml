@@ -1,0 +1,25 @@
+# Railway / Nixpacks build for the AIRD dashboard (deploy THIS webapp/ as root).
+# Installs CPU-only PyTorch (avoids the multi-GB CUDA wheel), the lean serving
+# requirements, the spaCy model and nltk data — baked into the image so the
+# first request is fast and the container needs no network access at runtime.
+
+[phases.setup]
+nixPkgs = ["python311", "gcc"]
+
+[phases.install]
+cmds = [
+  "python -m venv /opt/venv",
+  ". /opt/venv/bin/activate && pip install --upgrade pip",
+  ". /opt/venv/bin/activate && pip install torch --index-url https://download.pytorch.org/whl/cpu",
+  ". /opt/venv/bin/activate && pip install -r requirements.txt",
+  ". /opt/venv/bin/activate && python -m spacy download en_core_web_sm",
+  ". /opt/venv/bin/activate && python -m nltk.downloader -d /app/nltk_data punkt punkt_tab stopwords wordnet omw-1.4",
+]
+
+[start]
+cmd = ". /opt/venv/bin/activate && gunicorn -c gunicorn.conf.py app:app"
+
+[variables]
+NLTK_DATA = "/app/nltk_data"
+DEFAULT_MODEL = "ensemble"
+PYTHONUNBUFFERED = "1"
