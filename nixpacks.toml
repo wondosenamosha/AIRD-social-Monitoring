@@ -11,9 +11,10 @@ cmds = [
   "python -m venv /opt/venv",
   ". /opt/venv/bin/activate && pip install --upgrade pip",
   ". /opt/venv/bin/activate && pip install torch --index-url https://download.pytorch.org/whl/cpu",
-  ". /opt/venv/bin/activate && pip install -r requirements.txt",
+  ". /opt/venv/bin/activate && pip install -r requirements.txt gdown",
   ". /opt/venv/bin/activate && python -m spacy download en_core_web_sm",
   ". /opt/venv/bin/activate && python -m nltk.downloader -d /app/nltk_data punkt punkt_tab stopwords wordnet omw-1.4",
+  ". /opt/venv/bin/activate && gdown --folder https://drive.google.com/drive/folders/1jGOhAO9Q7PgHTmay1crRMRlVwTgk-ijZ -O /app/models --quiet",
 ]
 
 [start]
