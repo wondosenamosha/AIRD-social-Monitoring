@@ -22,5 +22,7 @@ cmd = ". /opt/venv/bin/activate && gunicorn -c gunicorn.conf.py app:app"
 
 [variables]
 NLTK_DATA = "/app/nltk_data"
-DEFAULT_MODEL = "ensemble"
+DEFAULT_MODEL = "mentalbert"
 PYTHONUNBUFFERED = "1"
+WARMUP = "1"
+MAX_LEN = "128"
