@@ -14,7 +14,7 @@ cmds = [
   ". /opt/venv/bin/activate && pip install -r requirements.txt gdown",
   ". /opt/venv/bin/activate && python -m spacy download en_core_web_sm",
   ". /opt/venv/bin/activate && python -m nltk.downloader -d /app/nltk_data punkt punkt_tab stopwords wordnet omw-1.4",
-  ". /opt/venv/bin/activate && gdown --folder https://drive.google.com/drive/folders/1jGOhAO9Q7PgHTmay1crRMRlVwTgk-ijZ -O /app/models --quiet",
+  "mkdir -p /app/models && . /opt/venv/bin/activate && gdown --folder https://drive.google.com/drive/folders/1jGOhAO9Q7PgHTmay1crRMRlVwTgk-ijZ -O /tmp/gdrive --quiet && mv /tmp/gdrive/* /app/models/ 2>/dev/null || true",
 ]
 
 [start]
