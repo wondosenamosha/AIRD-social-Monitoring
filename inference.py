@@ -87,7 +87,7 @@ ENSEMBLE_MEMBERS = ["mentalbert", "roberta"]
 # best and the most robust on out-of-domain input). Override with DEFAULT_MODEL
 # (e.g. "roberta") for a lighter, single-model deployment.
 DEFAULT_MODEL = os.environ.get("DEFAULT_MODEL", "ensemble")
-MAX_LEN = int(os.environ.get("MAX_LEN", "256"))
+MAX_LEN = int(os.environ.get("MAX_LEN") or "256")   # tolerate empty env value
 
 # Classical Track B pipelines (TF-IDF word+char union + classifier), retrained as
 # self-contained bundles because the originals shipped the classifier only.

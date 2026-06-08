@@ -40,9 +40,9 @@ import reddit_scrape
 # --------------------------------------------------------------------------- #
 _WEBAPP_DIR = os.path.dirname(os.path.abspath(__file__))
 REDDIT_JSON = os.path.join(_WEBAPP_DIR, "data", "reddit_dashboard.json")
-MAX_CHARS = int(os.environ.get("MAX_CHARS", "5000"))
-RATE_LIMIT = int(os.environ.get("RATE_LIMIT", "30"))      # requests / window
-RATE_WINDOW = int(os.environ.get("RATE_WINDOW", "60"))    # seconds
+MAX_CHARS = int(os.environ.get("MAX_CHARS") or "5000")    # tolerate empty env value
+RATE_LIMIT = int(os.environ.get("RATE_LIMIT") or "30")     # requests / window
+RATE_WINDOW = int(os.environ.get("RATE_WINDOW") or "60")   # seconds
 
 logging.basicConfig(
     level=os.environ.get("LOG_LEVEL", "INFO"),
@@ -310,5 +310,5 @@ def _snip(text: str, n: int) -> str:
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", "8000"))
+    port = int(os.environ.get("PORT") or "8000")
     app.run(host="0.0.0.0", port=port, debug=bool(os.environ.get("DEBUG")))
