@@ -42,16 +42,34 @@ Reddit's public **RSS feed** (`…/comments/<id>/.rss`) — credential-free and
 works for recent posts. If `REDDIT_CLIENT_ID`/`REDDIT_CLIENT_SECRET` are set it
 also uses PRAW (adds post score). See `reddit_scrape.py`.
 
-### Live models (Track B)
-| Model | Live | Why |
+### Live models (Track B) — all six now serve live
+| Model | Live | Notes |
 |---|---|---|
 | **MentalBERT (Track B)** | ✅ | full HF artifacts (config + safetensors + tokenizer) |
 | **Mental-RoBERTa (Track B)** | ✅ | full HF artifacts |
-| **Ensemble** | ✅ | probability average of the two above |
-| LightGBM / LogReg (Track B) | ❌ | classifier saved without its TF-IDF vectorizer |
-| Custom Transformer (Track B) | ❌ | only a weight `state_dict` (no vocab/tokenizer) |
+| **Ensemble** | ✅ | probability average of the transformers above |
+| **LightGBM (Track B)** | ✅ | rebuilt self-contained bundle (TF-IDF word+char union + classifier) |
+| **Logistic Regression (Track B)** | ✅ | rebuilt self-contained bundle |
+| **Custom Transformer (Track B)** | ✅ | rebuilt: `state_dict` + `word2idx` + `config` saved together (GloVe-300d, 4 blocks) |
 
-All six Track B models' **published** metrics still appear on the dashboard leaderboard.
+The classical models originally shipped only the classifier (no TF-IDF vectorizer)
+and the Custom Transformer only a bare `state_dict` (no vocab). Both were fit on
+the **reproducible original train split** of `Combined_Data_cleaned.csv` (seed 42),
+so they were **retrained as self-contained serving artifacts** that reproduce the
+published metrics (LogReg 0.746 acc / 0.764 macro-F1; LightGBM 0.789 / 0.834).
+Rebuild them with:
+
+```bash
+export DYLD_LIBRARY_PATH="/opt/homebrew/opt/libomp/lib:$DYLD_LIBRARY_PATH"  # LightGBM (macOS)
+python scripts/train_classical.py        # -> models/classical/{logreg,lgbm}_trackb.joblib
+python scripts/train_transformer.py       # -> models/CustomTransformer_TrackB/  (uses Apple MPS if present)
+```
+
+`ct_model.py` holds the Custom Transformer architecture shared by the trainer and
+the server, so the saved weights always load. **LightGBM needs the OpenMP runtime**
+(`libomp`) — installed automatically on Railway via `nixpacks.toml`; locally
+`brew install libomp`. All six models' published metrics also appear on the
+dashboard leaderboard.
 
 ---
 

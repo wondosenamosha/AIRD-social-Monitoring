@@ -29,7 +29,10 @@ OUT = os.path.join(WEBAPP, "data", "reddit_dashboard.json")
 MODEL_NOTE = "Ensemble (Track B) · 84.6% acc / 0.90 macro-F1"
 
 # Which Track B models can actually serve live inference (complete artifacts).
-LIVE_LOADABLE = {"MentalBERT", "RoBERTa"}
+# All six are now live: the transformers ship full HF artifacts; the classical
+# models and the Custom Transformer were rebuilt as self-contained serving
+# bundles (vectorizer/word2idx saved alongside the weights).
+LIVE_LOADABLE = {"MentalBERT", "RoBERTa", "LightGBM", "LogReg", "CustomTransformer"}
 MODEL_DISPLAY = {
     "Ensemble": "Stacking Ensemble",
     "MentalBERT": "MentalBERT",

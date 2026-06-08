@@ -27,7 +27,7 @@
       "accuracy": 84.6,
       "f1_macro": 90.2,
       "f1_weighted": 84.6,
-      "live": false
+      "live": true
     },
     {
       "model": "MentalBERT",
@@ -51,7 +51,7 @@
       "accuracy": 78.9,
       "f1_macro": 83.5,
       "f1_weighted": 78.6,
-      "live": false
+      "live": true
     },
     {
       "model": "Custom Transformer",
@@ -59,7 +59,7 @@
       "accuracy": 75.8,
       "f1_macro": 79.0,
       "f1_weighted": 75.6,
-      "live": false
+      "live": true
     },
     {
       "model": "Logistic Regression",
@@ -67,7 +67,7 @@
       "accuracy": 74.5,
       "f1_macro": 76.0,
       "f1_weighted": 74.1,
-      "live": false
+      "live": true
     }
   ],
   "emotion_distribution": [
