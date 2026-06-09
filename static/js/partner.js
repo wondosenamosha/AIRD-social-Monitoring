@@ -90,6 +90,13 @@
       $("#tcSource").textContent="r/"+ctx.post.subreddit+(ctx.post.author?" · u/"+ctx.post.author:"");
       $("#tcTitle").textContent=ctx.post.title;
       $("#tcMeta").textContent=`▲ ${ctx.post.score} · ${ctx.post.num_comments} comments · ${ctx.thread.analyzed} analyzed here`;
+      // show the author's post body so classification is transparent
+      const snip=ctx.post.snippet&&ctx.post.snippet!==ctx.post.title?ctx.post.snippet:null;
+      const snipEl=document.getElementById("tcSnippet")||document.createElement("div");
+      snipEl.id="tcSnippet";
+      snipEl.style.cssText="margin:6px 0 4px;font-size:12px;color:#64748b;font-style:italic;line-height:1.5;border-left:3px solid #cbd5e1;padding-left:9px";
+      snipEl.textContent=snip?"Author wrote: \""+snip+"\"":`(title-only post — no body text)`;
+      const titleEl=$("#tcTitle"); titleEl.after(snipEl);
       const total=ctx.thread.distribution.reduce((s,d)=>s+d.count,0)||1;
       $("#tcBar").innerHTML=ctx.thread.analyzed?`<div class="seg-bar">`+ctx.thread.distribution.map(d=>
         `<span style="width:${100*d.count/total}%;background:${d.color}" title="${d.emotion}: ${d.count}"></span>`).join("")+`</div>`:"";
