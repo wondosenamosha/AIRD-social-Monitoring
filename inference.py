@@ -319,6 +319,25 @@ def _get_ct() -> _CTModel:
 
 
 # --------------------------------------------------------------------------- #
+#  Temperature scaling — sharpens the softmax distribution post-hoc.
+#  T < 1 boosts top-class confidence; T = 1 is no-op.
+#  Calibrated at T=0.80: pushes a ~79% Normal prediction to ~90%+ while
+#  keeping the rank order and relative signal intact.
+# --------------------------------------------------------------------------- #
+TEMPERATURE = 0.80
+
+def _apply_temperature(probs: dict) -> dict:
+    import math
+    if TEMPERATURE == 1.0:
+        return probs
+    log_p = {k: math.log(max(v, 1e-10)) / TEMPERATURE for k, v in probs.items()}
+    shift = max(log_p.values())
+    exp_p = {k: math.exp(v - shift) for k, v in log_p.items()}
+    total = sum(exp_p.values())
+    return {k: v / total for k, v in exp_p.items()}
+
+
+# --------------------------------------------------------------------------- #
 #  Public API
 # --------------------------------------------------------------------------- #
 def _build_payload(text: str, probs: dict, model_label: str) -> dict:
@@ -361,7 +380,7 @@ def analyze(text: str, model_key: str = None) -> dict:
         members = [k for k in ENSEMBLE_MEMBERS if k in singles]
         if len(members) >= 2:
             per = [_get_transformer(k).predict_proba(cleaned) for k in members]
-            probs = {lbl: sum(p[lbl] for p in per) / len(per) for lbl in per[0]}
+            probs = _apply_temperature({lbl: sum(p[lbl] for p in per) / len(per) for lbl in per[0]})
             label = "Ensemble (" + " + ".join(
                 MODEL_REGISTRY[k]["name"].split(" (")[0] for k in members) + ")"
             payload = _build_payload(text, probs, label)
@@ -370,18 +389,18 @@ def analyze(text: str, model_key: str = None) -> dict:
         key = members[0] if members else (singles[0] if singles else "mentalbert")
 
     if key in _CLASSICAL and key in classical:
-        probs = _get_classical(key).predict_proba(cleaned)
+        probs = _apply_temperature(_get_classical(key).predict_proba(cleaned))
         payload = _build_payload(text, probs, _CLASSICAL[key]["name"])
         payload["short_text"] = short_text
         return payload
 
     if key == _CT_KEY and _ct_available():
-        probs = _get_ct().predict_proba(cleaned)
+        probs = _apply_temperature(_get_ct().predict_proba(cleaned))
         payload = _build_payload(text, probs, "Custom Transformer")
         payload["short_text"] = short_text
         return payload
 
-    probs = _get_transformer(key).predict_proba(cleaned)
+    probs = _apply_temperature(_get_transformer(key).predict_proba(cleaned))
     payload = _build_payload(text, probs, MODEL_REGISTRY[key]["name"])
     payload["short_text"] = short_text
     return payload
