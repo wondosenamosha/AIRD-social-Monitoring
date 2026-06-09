@@ -324,7 +324,7 @@ def _get_ct() -> _CTModel:
 #  Calibrated at T=0.80: pushes a ~79% Normal prediction to ~90%+ while
 #  keeping the rank order and relative signal intact.
 # --------------------------------------------------------------------------- #
-TEMPERATURE = 0.80
+TEMPERATURE = 0.92
 
 def _apply_temperature(probs: dict) -> dict:
     import math
