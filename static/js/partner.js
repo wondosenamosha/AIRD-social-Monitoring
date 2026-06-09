@@ -97,11 +97,24 @@
         `<div class="tc-c"><span class="tag" style="background:${c.color}">${c.emotion}</span><span>${escapeHtml(c.text)}</span></div>`).join("");
       tc.classList.remove("hide");
     }else tc.classList.add("hide");
-    // hero — colored ring + emotion glyph
-    const fc=$("#rFace"); fc.textContent=EMOJI[a.top_emotion]||"•";
-    fc.style.color=COLORS[a.top_emotion]||a.top_color;
-    $("#rEmo").textContent=`${a.top_emotion} · ${a.confidence}%`;
-    $("#rDesc").textContent=DESC[a.top_emotion]||"";
+    // hero — when post title is too short, fall back to dominant thread mood
+    const threadDist = ctx?.thread?.distribution;
+    const useThreadMood = a.short_text && threadDist && threadDist.length > 0;
+    const hero = useThreadMood
+      ? {emotion: threadDist[0].emotion, color: threadDist[0].color,
+         emoji: threadDist[0].emoji, confidence: null, risk_tier: a.risk_tier,
+         risk_level: a.risk_level}
+      : {emotion: a.top_emotion, color: COLORS[a.top_emotion]||a.top_color,
+         emoji: EMOJI[a.top_emotion]||"•", confidence: a.confidence,
+         risk_tier: a.risk_tier, risk_level: a.risk_level};
+    const fc=$("#rFace"); fc.textContent=hero.emoji;
+    fc.style.color=hero.color;
+    $("#rEmo").textContent=hero.confidence!=null
+      ? `${hero.emotion} · ${hero.confidence}%`
+      : `${hero.emotion} · thread mood`;
+    $("#rDesc").textContent=useThreadMood
+      ? "Post title too short — showing dominant thread emotion."
+      : (DESC[a.top_emotion]||"");
     const rb=$("#rRisk"); rb.textContent=`Risk: ${a.risk_tier}`;
     rb.style.background=RISK_COLOR[a.risk_level]||a.top_color;
     const existWarn=$("#shortTextWarn");
@@ -109,9 +122,11 @@
     if(a.short_text){
       const w=document.createElement("div");
       w.id="shortTextWarn";
-      w.style.cssText="margin:10px 16px 0;padding:8px 12px;border-radius:8px;background:#fef9c3;border:1px solid #fde047;font-size:12px;color:#854d0e;line-height:1.4";
-      w.textContent="⚠ Text too short for reliable classification (< 8 tokens after processing). Try adding more context.";
-      rb.parentNode.insertBefore(w,rb.nextSibling);
+      w.style.cssText="margin:10px 0 0;padding:8px 12px;border-radius:8px;background:#fef9c3;border:1px solid #fde047;font-size:11.5px;color:#854d0e;line-height:1.45;text-align:center";
+      w.textContent=useThreadMood
+        ? "⚠ Post title too short for direct classification — emotion shown reflects the thread discussion."
+        : "⚠ Text too short for reliable classification. Try adding more detail.";
+      rb.after(w);
     }
     // donut + legend
     const ranked=a.ranked.filter(x=>x.pct>0);

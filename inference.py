@@ -50,11 +50,11 @@ EMOTION_META = {
     "Anxiety":              {"emoji": "😰", "color": "#3b82f6", "risk": 2, "label": "Anxiety"},
     "Personality Disorder": {"emoji": "🎭", "color": "#8b5cf6", "risk": 2, "label": "Personality"},
     "Bipolar":              {"emoji": "🎢", "color": "#ec4899", "risk": 3, "label": "Bipolar"},
-    "Depression":           {"emoji": "😔", "color": "#647488", "risk": 3, "label": "Depression"},
+    "Depression":           {"emoji": "😔", "color": "#647488", "risk": 2, "label": "Depression"},
     "Suicidal":             {"emoji": "🆘", "color": "#ef4444", "risk": 4, "label": "Suicidal"},
 }
 
-RISK_TIERS = {0: "Stable", 1: "Mild", 2: "Elevated", 3: "High", 4: "Critical"}
+RISK_TIERS = {0: "Stable", 1: "Mild", 2: "Elevated", 3: "At-risk", 4: "High-risk"}
 
 # --------------------------------------------------------------------------- #
 #  Model registry (Track B variants with complete, loadable artifacts)
