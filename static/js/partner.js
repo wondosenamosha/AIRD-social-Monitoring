@@ -4,8 +4,10 @@
    3: probability breakdown   4: radar + keywords + tip
    =========================================================================== */
 (() => {
-  const COLORS = {Normal:"#34d399",Stress:"#fbbf24",Anxiety:"#60a5fa",
-    "Personality Disorder":"#a78bfa",Bipolar:"#f472b6",Depression:"#94a3b8",Suicidal:"#f87171"};
+  const COLORS = {Normal:"#10b981",Stress:"#f59e0b",Anxiety:"#3b82f6",
+    "Personality Disorder":"#8b5cf6",Bipolar:"#ec4899",Depression:"#647488",Suicidal:"#ef4444"};
+  const EMOJI = {Normal:"🙂",Stress:"😟",Anxiety:"😰","Personality Disorder":"🎭",
+    Bipolar:"🎢",Depression:"😔",Suicidal:"🆘"};
   const DESC = {
     Normal:"Your emotional state appears generally stable with mild variations.",
     Stress:"Signs of stress and pressure are showing up in what you wrote.",
@@ -15,7 +17,7 @@
     Depression:"Low-mood and withdrawal signals are present in your words.",
     Suicidal:"Language of serious distress was detected. Please reach out for support."};
   const RADAR_ORDER = ["Normal","Stress","Anxiety","Suicidal","Depression","Bipolar","Personality Disorder"];
-  const RISK_COLOR = ["#34d399","#fbbf24","#60a5fa","#f472b6","#f87171"];
+  const RISK_COLOR = ["#10b981","#f59e0b","#3b82f6","#7c3aed","#ef4444"];
 
   const $ = s => document.querySelector(s);
   const charts = {};
@@ -95,8 +97,9 @@
         `<div class="tc-c"><span class="tag" style="background:${c.color}">${c.emotion}</span><span>${escapeHtml(c.text)}</span></div>`).join("");
       tc.classList.remove("hide");
     }else tc.classList.add("hide");
-    // hero
-    $("#rFace").textContent="";
+    // hero — colored ring + emotion glyph
+    const fc=$("#rFace"); fc.textContent=EMOJI[a.top_emotion]||"•";
+    fc.style.color=COLORS[a.top_emotion]||a.top_color;
     $("#rEmo").textContent=`${a.top_emotion} · ${a.confidence}%`;
     $("#rDesc").textContent=DESC[a.top_emotion]||"";
     const rb=$("#rRisk"); rb.textContent=`Risk: ${a.risk_tier}`;
@@ -123,8 +126,9 @@
     charts.pradar?.destroy();
     charts.pradar=new Chart($("#partnerRadar"),{type:"radar",
       data:{labels:RADAR_ORDER.map(e=>(e==="Personality Disorder"?"Personality":e)),
-        datasets:[{data:vals,borderColor:a.top_color,backgroundColor:hexA(a.top_color,.22),
-          pointBackgroundColor:a.top_color,borderWidth:2}]},
+        datasets:[{data:vals,borderColor:(COLORS[a.top_emotion]||a.top_color),
+          backgroundColor:hexA(COLORS[a.top_emotion]||a.top_color,.18),
+          pointBackgroundColor:(COLORS[a.top_emotion]||a.top_color),borderWidth:2}]},
       options:{plugins:{legend:{display:false}},
         scales:{r:{suggestedMin:0,suggestedMax:Math.max(20,Math.ceil(Math.max(...vals)/10)*10),
           ticks:{display:false,stepSize:20},pointLabels:{font:{size:10}},grid:{color:"#dfe4ee"}}}}});

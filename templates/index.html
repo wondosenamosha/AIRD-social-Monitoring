@@ -3,28 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIRD · Social Monitoring</title>
-<meta name="description" content="AIRD Social Monitoring — a mental-health signal dashboard from Reddit discourse with a live Emotion Partner powered by Track B models. Screening tool, not a diagnosis.">
-<meta name="theme-color" content="#0f1b2d">
+<title>AIRD · Social Monitor 2026</title>
+<meta name="description" content="AIRD Social Monitor 2026 — a mental-health signal dashboard over AI-layoff Reddit discourse. Screening tool, not a diagnosis.">
+<meta name="theme-color" content="#0b1220">
 <meta name="robots" content="index,follow">
 <meta property="og:title" content="AIRD · Social Monitoring">
-<meta property="og:description" content="Mental-health signal monitoring from Reddit + an interactive Emotion Partner.">
+<meta property="og:description" content="Mental-health signal monitoring from Reddit + the AIRD live analysis tool.">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/svg+xml" href="{{ url_for('favicon') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <div class="app">
 
+  <!-- ================= left rail ================= -->
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12h3l2 5 4-12 2 7h2"/><circle cx="18.5" cy="12" r="2.2"/>
+        </svg>
+      </span>
+      <span>
+        <span class="bt">AIRD</span>
+        <span class="bs">Social Monitoring</span>
+      </span>
+    </div>
+    <nav class="nav">
+      <div class="lbl">Monitor</div>
+      <a class="active" data-scroll="top"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span>Overview</a>
+      <a data-scroll="mentions"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>Mentions</a>
+      <a data-scroll="community"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 5.5a3 3 0 0 1 0 5.6M22 20a6 6 0 0 0-4.5-5.8"/></svg></span>Community</a>
+      <div class="lbl">Research</div>
+      <a data-scroll="leaderboard"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>Model leaderboard</a>
+      <a data-open-partner><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-9.5-8.5A5.5 5.5 0 0 1 12 6.5 5.5 5.5 0 0 1 21.5 12.5C19 16.65 12 21 12 21z"/></svg></span>Try AIRD</a>
+    </nav>
+    <div class="foot">
+      <a href="https://www.findahelpline.com" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        24/7 crisis helplines →
+      </a>
+      <p>Screening &amp; awareness tool not a medical diagnosis.</p>
+    </div>
+  </aside>
+
   <!-- ================= main ================= -->
   <main class="main">
     <header class="topbar" id="top">
       <div>
-        <h1>Social Monitoring — Mental-Health Signals</h1>
+        <h1>AIRD Social Monitor 2026</h1>
         <div class="sub">{{ meta.topic }} · {{ meta.date_start }} → {{ meta.date_end }} ·
           {{ meta.subreddits | join(', ') }}</div>
       </div>
@@ -34,31 +66,36 @@
         <button data-src="community">Community</button>
         <button data-src="combined">Combined</button>
       </div>
-      <button class="btn-primary" data-open-partner>Try out</button>
+      <button class="btn-primary" data-open-partner>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Try AIRD
+      </button>
     </header>
 
-    <div class="chips" style="padding:14px 26px 0" id="emotionChips"></div>
+    <div class="chips" style="padding:18px 32px 0" id="emotionChips"></div>
 
     <section class="grid" id="grid">
       <div class="loading col-3">Loading dashboard…</div>
     </section>
 
-    <footer style="padding:8px 26px 30px;color:var(--muted);font-size:11px">
-      Predictions generated by the project's Track B models · Reddit baseline = majority-vote ensemble.
+    <footer class="legal">
+      Predictions generated by the project's mental-health models · Reddit baseline = majority-vote ensemble.
       Screening tool, not a diagnosis. If you are in crisis,
-      <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style="color:var(--accent-2);font-weight:600">find a 24/7 helpline →</a>
+      <a href="https://www.findahelpline.com" target="_blank" rel="noopener noreferrer">find a 24/7 helpline →</a>
     </footer>
   </main>
 </div>
 
-<!-- ================= Emotion Partner slide-over ================= -->
+<!-- ================= Try AIRD slide-over ================= -->
 <div class="overlay" id="overlay"></div>
-<section class="partner" id="partner" role="dialog" aria-modal="true" aria-label="AIRD Emotion Partner" aria-hidden="true">
+<section class="partner" id="partner" role="dialog" aria-modal="true" aria-label="AIRD Try AIRD" aria-hidden="true">
   <div class="ph-head">
-    <div class="av"></div>
+    <div class="av" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
     <div>
-      <div class="ttl">AIRD · Try Out</div>
-      <div class="st">Online, ready to listen</div>
+      <div class="ttl">Try AIRD</div>
+      <div class="st">Online · ready to listen</div>
     </div>
     <button class="close" id="closePartner" aria-label="Close">✕</button>
   </div>
@@ -66,9 +103,9 @@
   <!-- chat screen -->
   <div class="stage" id="chatStage">
     <div class="chat" id="chat">
-      <div class="bubble bot">Hello, I'm <strong>AIRD</strong> — your personal emotion partner.
-        Describe your recent mood, feelings, or anything on your mind, and I'll analyze your
-        emotional state with the project's Track&nbsp;B models and show a detailed breakdown.</div>
+      <div class="bubble bot">Hi! Describe your recent
+        mood or anything on your mind and I'll analyze your emotional state with the project's
+        models and show a detailed breakdown. You can also paste a Reddit post link.</div>
     </div>
   </div>
   <div class="composer" id="composer">
@@ -81,10 +118,12 @@
       </select>
     </div>
     <div class="inrow">
-      <textarea id="feelInput" rows="1" maxlength="5000" aria-label="Describe your feelings or paste a Reddit post link" placeholder="Write your feelings, or paste a Reddit post link"></textarea>
-      <button class="send" id="sendBtn" aria-label="Send">➤</button>
+      <textarea id="feelInput" rows="1" maxlength="5000" aria-label="Describe your feelings or paste a Reddit post link" placeholder="Write how you feel, or paste a Reddit post link…"></textarea>
+      <button class="send" id="sendBtn" aria-label="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>
+      </button>
     </div>
-    <div class="disc">Type how you feel, <strong>or paste a Reddit post URL</strong> to scrape & analyze the
+    <div class="disc">Type how you feel, <strong>or paste a Reddit post URL</strong> to scrape &amp; analyze the
       author + comments. Anonymous · no account; a short snippet powers the live Community view
       (high-risk text is never shown). Not a medical diagnosis.</div>
   </div>
@@ -92,7 +131,6 @@
   <!-- report stepper -->
   <div class="stage report" id="reportStage">
     <div class="steps" id="steps">
-      <!-- step 1: hero -->
       <div class="step show" data-step="0">
         <div class="rcard result-hero">
           <div class="face" id="rFace"></div>
@@ -108,7 +146,6 @@
           <div class="tc-comments" id="tcComments"></div>
         </div>
       </div>
-      <!-- step 2: distribution donut -->
       <div class="step" data-step="1">
         <div class="rcard">
           <div class="rtitle">Emotion Distribution</div>
@@ -120,24 +157,22 @@
           </div>
         </div>
       </div>
-      <!-- step 3: probability bars -->
       <div class="step" data-step="2">
         <div class="rcard">
-          <div class="rtitle">Emotion Probability Breakdown</div>
+          <div class="rtitle">Probability Breakdown</div>
           <div class="hbars" id="probBars"></div>
         </div>
       </div>
-      <!-- step 4: radar + keywords + tip -->
       <div class="step" data-step="3">
         <div class="rcard">
           <div class="rtitle">Emotion Dimension Radar</div>
           <canvas id="partnerRadar" height="240"></canvas>
         </div>
         <div class="rcard">
-          <div class="rtitle">Detected Emotion Keywords</div>
+          <div class="rtitle">Detected Keywords</div>
           <div class="kw" id="kwBox"></div>
         </div>
-        <div class="tip"><span id="tipText"></span></div>
+        <div class="tip"><span class="i">›</span><span id="tipText"></span></div>
       </div>
     </div>
 

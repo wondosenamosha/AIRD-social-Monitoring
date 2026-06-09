@@ -45,13 +45,13 @@ LABELS = [
 ]
 
 EMOTION_META = {
-    "Normal":               {"emoji": "😊", "color": "#34d399", "risk": 0, "label": "Normal"},
-    "Stress":               {"emoji": "😟", "color": "#fbbf24", "risk": 1, "label": "Stress"},
-    "Anxiety":              {"emoji": "😰", "color": "#60a5fa", "risk": 2, "label": "Anxiety"},
-    "Personality Disorder": {"emoji": "🎭", "color": "#a78bfa", "risk": 2, "label": "Personality"},
-    "Bipolar":              {"emoji": "🎢", "color": "#f472b6", "risk": 3, "label": "Bipolar"},
-    "Depression":           {"emoji": "😔", "color": "#94a3b8", "risk": 3, "label": "Depression"},
-    "Suicidal":             {"emoji": "🆘", "color": "#f87171", "risk": 4, "label": "Suicidal"},
+    "Normal":               {"emoji": "🙂", "color": "#10b981", "risk": 0, "label": "Normal"},
+    "Stress":               {"emoji": "😟", "color": "#f59e0b", "risk": 1, "label": "Stress"},
+    "Anxiety":              {"emoji": "😰", "color": "#3b82f6", "risk": 2, "label": "Anxiety"},
+    "Personality Disorder": {"emoji": "🎭", "color": "#8b5cf6", "risk": 2, "label": "Personality"},
+    "Bipolar":              {"emoji": "🎢", "color": "#ec4899", "risk": 3, "label": "Bipolar"},
+    "Depression":           {"emoji": "😔", "color": "#647488", "risk": 3, "label": "Depression"},
+    "Suicidal":             {"emoji": "🆘", "color": "#ef4444", "risk": 4, "label": "Suicidal"},
 }
 
 RISK_TIERS = {0: "Stable", 1: "Mild", 2: "Elevated", 3: "High", 4: "Critical"}
@@ -77,9 +77,9 @@ def _default_models_root() -> str:
 _MODELS_ROOT = os.environ.get("MODELS_ROOT") or _default_models_root()
 
 MODEL_REGISTRY = {
-    "mentalbert": {"name": "MentalBERT (Track B)",
+    "mentalbert": {"name": "MentalBERT",
                    "dir": os.path.join(_MODELS_ROOT, "MentalBERT_TrackB")},
-    "roberta":    {"name": "Mental-RoBERTa (Track B)",
+    "roberta":    {"name": "Mental-RoBERTa",
                    "dir": os.path.join(_MODELS_ROOT, "RoBERTa_TrackB")},
 }
 ENSEMBLE_MEMBERS = ["mentalbert", "roberta"]
@@ -92,9 +92,9 @@ MAX_LEN = int(os.environ.get("MAX_LEN") or "256")   # tolerate empty env value
 # Classical Track B pipelines (TF-IDF word+char union + classifier), retrained as
 # self-contained bundles because the originals shipped the classifier only.
 _CLASSICAL = {
-    "logreg":   {"name": "Logistic Regression (Track B)",
+    "logreg":   {"name": "Logistic Regression",
                  "file": os.path.join(_MODELS_ROOT, "classical", "logreg_trackb.joblib")},
-    "lightgbm": {"name": "LightGBM (Track B)",
+    "lightgbm": {"name": "LightGBM",
                  "file": os.path.join(_MODELS_ROOT, "classical", "lgbm_trackb.joblib")},
 }
 # Custom Transformer Track B (state_dict + word2idx + config saved together).
@@ -138,12 +138,10 @@ def available_models() -> list:
     live = _available_single()
     out = [{"key": k, "name": MODEL_REGISTRY[k]["name"], "live": True} for k in live]
     if len(live) >= 2:
-        out.append({"key": "ensemble", "name": "Ensemble (Track B avg)", "live": True})
+        out.append({"key": "ensemble", "name": "Ensemble", "live": True})
     classical = _available_classical()
     out.append({"key": "lightgbm", "name": _CLASSICAL["lightgbm"]["name"],
                 "live": "lightgbm" in classical})
-    out.append({"key": "customtransformer", "name": "Custom Transformer (Track B)",
-                "live": _ct_available()})
     out.append({"key": "logreg", "name": _CLASSICAL["logreg"]["name"],
                 "live": "logreg" in classical})
     return out
@@ -363,7 +361,7 @@ def analyze(text: str, model_key: str = None) -> dict:
         if len(members) >= 2:
             per = [_get_transformer(k).predict_proba(cleaned) for k in members]
             probs = {lbl: sum(p[lbl] for p in per) / len(per) for lbl in per[0]}
-            label = "Ensemble (Track B · " + " + ".join(
+            label = "Ensemble (" + " + ".join(
                 MODEL_REGISTRY[k]["name"].split(" (")[0] for k in members) + ")"
             return _build_payload(text, probs, label)
         key = members[0] if members else (singles[0] if singles else "mentalbert")
@@ -374,7 +372,7 @@ def analyze(text: str, model_key: str = None) -> dict:
 
     if key == _CT_KEY and _ct_available():
         probs = _get_ct().predict_proba(cleaned)
-        return _build_payload(text, probs, "Custom Transformer (Track B)")
+        return _build_payload(text, probs, "Custom Transformer")
 
     probs = _get_transformer(key).predict_proba(cleaned)
     return _build_payload(text, probs, MODEL_REGISTRY[key]["name"])
