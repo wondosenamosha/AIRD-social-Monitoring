@@ -152,9 +152,9 @@
     const v = currentView();
     $("#grid").innerHTML = gridHTML(v);
     $("#distSrc").textContent = v.srcLabel;
-    drawDonut(v); renderLegend(v); drawTimeline(v); renderRiskBars(v);
+    drawDonut(v); renderLegend(v); drawTimeline(v); drawRiskDonuts(v);
     drawSubredditBar(v); renderMentions(v); renderCloud(v); renderLeaderboard(v);
-    renderSources(v); renderCommunity();
+    drawSources(v); renderCommunity();
   }
   const filteredDist = v => v.emotion_distribution.filter(d=>state.active.has(d.emotion));
 
@@ -164,17 +164,19 @@
     const data = filteredDist(v).filter(x=>x.count>0);
     $("#donutTotal").textContent = fmt(data.reduce((a,x)=>a+x.count,0));
     const top0=data[0]; if(top0){const lbl=document.getElementById("donutTopLabel");if(lbl){lbl.textContent=top0.emotion;lbl.style.color=COLORS[top0.emotion];}}
-    const W=158,H=158,R=Math.min(W,H)/2;
+    const W=172,H=172,R=Math.min(W,H)/2;
     const svg=d3.select(el).append("svg").attr("class","chart").attr("width",W).attr("height",H)
       .append("g").attr("transform",`translate(${W/2},${H/2})`);
-    const pie=d3.pie().sort(null).value(d=>d.count).padAngle(.018);
-    const arc=d3.arc().innerRadius(R*0.64).outerRadius(R-2).cornerRadius(3);
+    const pie=d3.pie().sort(null).value(d=>d.count).padAngle(.022);
+    const arc=d3.arc().innerRadius(R*0.60).outerRadius(R-2).cornerRadius(4);
     svg.selectAll("path").data(pie(data)).join("path")
-      .attr("d",arc).attr("fill",d=>COLORS[d.data.emotion]||d.data.color).attr("stroke","#fff").attr("stroke-width",2)
-      .style("cursor","default")
+      .attr("fill",d=>COLORS[d.data.emotion]||d.data.color).attr("stroke","#fff").attr("stroke-width",2)
+      .style("cursor","default").attr("opacity",0)
       .on("mousemove",(e,d)=>tipShow(`<b>${d.data.emotion}</b> · ${fmt(d.data.count)} (${d.data.pct}%)`,e))
       .on("mouseleave",tipHide)
-      .transition().duration(450).attrTween("d",function(d){
+      .transition().duration(600).delay((_,i)=>i*60).ease(d3.easeCubicOut)
+      .attr("opacity",1)
+      .attrTween("d",function(d){
         const i=d3.interpolate({startAngle:d.startAngle,endAngle:d.startAngle},d);
         return t=>arc(i(t));});
   }
@@ -193,7 +195,7 @@
     const t=v.timeline||[];
     if(t.length<2){el.innerHTML='<div class="empty">Not enough days to chart a trend.</div>';return;}
     const emos=ALL_EMOTIONS.filter(e=>state.active.has(e));
-    const W=el.clientWidth||640, H=170, m={t:8,r:10,b:22,l:34};
+    const W=el.clientWidth||640, H=210, m={t:8,r:10,b:22,l:34};
     const parse=d3.timeParse("%Y-%m-%d");
     const rows=t.map(p=>{const o={date:parse(p.date)}; emos.forEach(e=>o[e]=(p.counts&&p.counts[e])||0); return o;});
     const x=d3.scaleTime().domain(d3.extent(rows,d=>d.date)).range([m.l,W-m.r]);
@@ -206,8 +208,14 @@
     svg.append("g").attr("class","grid").selectAll("line").data(y.ticks(4)).join("line")
       .attr("x1",m.l).attr("x2",W-m.r).attr("y1",y).attr("y2",y);
     const area=d3.area().x(d=>x(d.data.date)).y0(d=>y(d[0])).y1(d=>y(d[1])).curve(d3.curveMonotoneX);
+    // clip-path reveal: wipe left → right
+    const clipId="tc"+Date.now();
+    svg.append("defs").append("clipPath").attr("id",clipId)
+      .append("rect").attr("x",m.l).attr("y",m.t).attr("height",H-m.t-m.b).attr("width",0)
+      .transition().duration(1100).ease(d3.easeCubicInOut).attr("width",W-m.l-m.r);
     svg.selectAll("path.layer").data(stack).join("path").attr("class","layer")
-      .attr("fill",d=>COLORS[d.key]).attr("fill-opacity",.76).attr("d",area)
+      .attr("fill",d=>COLORS[d.key]).attr("fill-opacity",.74).attr("d",area)
+      .attr("clip-path",`url(#${clipId})`)
       .on("mousemove",(e,d)=>tipShow(`<b>${d.key}</b>`,e)).on("mouseleave",tipHide);
     // axes
     svg.append("g").attr("class","axis").attr("transform",`translate(0,${H-m.b})`)
@@ -218,46 +226,117 @@
       .selectAll("text").style("font-size","10px");
   }
 
-  // ---------- D3: stacked subreddit bars ------------------------------------
+  // ---------- D3: emotion mix horizontal bars (replaces vertical stacked) ----
   function drawSubredditBar(v){
     const el=$("#barSubreddit"); el.innerHTML="";
     if(!v.by_subreddit||!v.by_subreddit.length){el.innerHTML='<div class="empty">No subreddit data for this view.</div>';return;}
     const emos=ALL_EMOTIONS.filter(e=>state.active.has(e));
     const subs=v.by_subreddit;
-    const W=el.clientWidth||640, H=190, m={t:8,r:10,b:26,l:34};
-    const x=d3.scaleBand().domain(subs.map(s=>"r/"+s.subreddit)).range([m.l,W-m.r]).padding(.34);
-    const rows=subs.map(s=>{const o={k:"r/"+s.subreddit}; emos.forEach(e=>o[e]=(s.counts&&s.counts[e])||0); return o;});
-    const stack=d3.stack().keys(emos)(rows);
-    const yMax=d3.max(rows,r=>emos.reduce((a,e)=>a+r[e],0))||1;
-    const y=d3.scaleLinear().domain([0,yMax]).nice().range([H-m.b,m.t]);
+    const W=el.clientWidth||560, BAR=14, GAP=20, PAD_L=110, PAD_R=52, PAD_T=6, HEADER_H=22;
+    const H=PAD_T+(subs.length*(HEADER_H+emos.length*(BAR+4)+GAP));
+    const maxTotal=d3.max(subs,s=>emos.reduce((a,e)=>a+(s.counts?.[e]||0),0))||1;
+    const xScale=d3.scaleLinear().domain([0,maxTotal]).range([0,W-PAD_L-PAD_R]);
     const svg=d3.select(el).append("svg").attr("class","chart").attr("width","100%").attr("height",H)
       .attr("viewBox",`0 0 ${W} ${H}`);
-    svg.append("g").attr("class","grid").selectAll("line").data(y.ticks(4)).join("line")
-      .attr("x1",m.l).attr("x2",W-m.r).attr("y1",y).attr("y2",y);
-    svg.selectAll("g.layer").data(stack).join("g").attr("class","layer").attr("fill",d=>COLORS[d.key])
-      .selectAll("rect").data(d=>d.map(p=>({...p,key:d.key}))).join("rect")
-        .attr("x",d=>x(d.data.k)).attr("width",x.bandwidth())
-        .attr("y",d=>y(d[1])).attr("height",d=>Math.max(0,y(d[0])-y(d[1]))).attr("rx",2)
-        .on("mousemove",(e,d)=>tipShow(`<b>${d.key}</b> · ${d.data.k}: ${d[1]-d[0]}`,e)).on("mouseleave",tipHide);
-    svg.append("g").attr("class","axis").attr("transform",`translate(0,${H-m.b})`)
-      .call(d3.axisBottom(x).tickSizeOuter(0)).call(g=>g.select(".domain").remove())
-      .selectAll("text").style("font-size","11px").style("fill","var(--ink-2)");
-    svg.append("g").attr("class","axis").attr("transform",`translate(${m.l},0)`)
-      .call(d3.axisLeft(y).ticks(4).tickSize(0)).call(g=>g.select(".domain").remove())
-      .selectAll("text").style("font-size","10px");
+    // shimmer gradient def
+    const shimId="shim"+Date.now();
+    const defs=svg.append("defs");
+    const lg=defs.append("linearGradient").attr("id",shimId).attr("x1","0%").attr("x2","100%");
+    lg.append("stop").attr("offset","0%").attr("stop-color","white").attr("stop-opacity",0);
+    lg.append("stop").attr("offset","50%").attr("stop-color","white").attr("stop-opacity",.22);
+    lg.append("stop").attr("offset","100%").attr("stop-color","white").attr("stop-opacity",0);
+
+    subs.forEach((s,si)=>{
+      const groupY=PAD_T+si*(HEADER_H+emos.length*(BAR+4)+GAP);
+      // subreddit header row — above the bars, no overlap with emotion labels
+      svg.append("text").attr("x",2).attr("y",groupY+14)
+        .attr("font-size","11.5").attr("font-weight","700")
+        .attr("fill","#334155").text("r/"+s.subreddit);
+      const rowTotal=emos.reduce((a,e)=>a+(s.counts?.[e]||0),0);
+      svg.append("text").attr("x",W-PAD_R).attr("y",groupY+14)
+        .attr("font-size","11").attr("font-weight","600")
+        .attr("fill","#94a3b8").attr("text-anchor","end").text(fmt(rowTotal));
+
+      emos.forEach((e,ei)=>{
+        const count=s.counts?.[e]||0;
+        const barW=xScale(count);
+        const y=groupY+HEADER_H+ei*(BAR+4);
+        const color=COLORS[e];
+        // track
+        svg.append("rect").attr("x",PAD_L).attr("y",y).attr("width",W-PAD_L-PAD_R)
+          .attr("height",BAR).attr("rx",BAR/2).attr("fill","#eaecf2");
+        // fill — animated from 0
+        const fill=svg.append("rect").attr("x",PAD_L).attr("y",y).attr("width",0)
+          .attr("height",BAR).attr("rx",BAR/2).attr("fill",color)
+          .on("mousemove",ev=>tipShow(`<b>${e}</b> · r/${s.subreddit}: ${fmt(count)}`,ev))
+          .on("mouseleave",tipHide);
+        fill.transition().duration(700).delay(si*120+ei*45).ease(d3.easeCubicOut)
+          .attr("width",Math.max(barW,count>0?BAR:0));
+        // shimmer overlay on fill (repeating)
+        if(count>0){
+          const shim=svg.append("rect").attr("x",PAD_L).attr("y",y)
+            .attr("width",0).attr("height",BAR).attr("rx",BAR/2)
+            .attr("fill",`url(#${shimId})`).attr("pointer-events","none");
+          shim.transition().duration(700).delay(si*120+ei*45)
+            .attr("width",Math.max(barW,BAR))
+            .on("end",function(){d3.select(this).attr("class","bar-shim");});
+        }
+        // emotion label
+        svg.append("text").attr("x",PAD_L-6).attr("y",y+BAR/2).attr("dy","0.35em")
+          .attr("text-anchor","end").attr("font-size","10.5").attr("fill","var(--muted)")
+          .attr("font-weight","500").text(e==="Personality Disorder"?"P. Disorder":e);
+      });
+    });
   }
 
-  // ---------- CSS-based panels ----------------------------------------------
-  function renderRiskBars(v){
-    if(!v.by_subreddit){$("#riskBars").innerHTML='<div class="empty">No subreddit data for this view.</div>';return;}
-    $("#riskBars").innerHTML = v.by_subreddit.map(s=>`
-      <div class="hbar"><div class="top"><span class="name">r/${s.subreddit}</span>
-        <span>${fmt(s.total)}</span></div>
-        <div class="stacked"><div class="seg-bar">
-          <span style="width:${s.stable_pct}%;background:var(--normal)" title="Stable ${s.stable_pct}%"></span>
-          <span style="width:${Math.max(0,s.at_risk_pct-s.high_risk_pct)}%;background:var(--stress)" title="Elevated"></span>
-          <span style="width:${s.high_risk_pct}%;background:var(--suicidal)" title="Suicidal ${s.high_risk_pct}%"></span>
-        </div></div></div>`).join("");
+  // ---------- D3: risk by subreddit — animated mini donuts -----------------
+  function drawRiskDonuts(v){
+    const el=$("#riskBars"); el.innerHTML="";
+    if(!v.by_subreddit){el.innerHTML='<div class="empty">No subreddit data for this view.</div>';return;}
+    const subs=v.by_subreddit;
+    const W=el.clientWidth||320, COLS=subs.length, CW=Math.floor(W/COLS);
+    const R=Math.min(CW/2-14,54), ri=R*0.57;
+    const cy=R+8, H=R*2+56;
+    const arcFn=d3.arc().innerRadius(ri).outerRadius(R).cornerRadius(3);
+    const pieFn=d3.pie().sort(null).value(d=>d.val).padAngle(0.03);
+    const svg=d3.select(el).append("svg").attr("width","100%").attr("height",H)
+      .attr("viewBox",`0 0 ${W} ${H}`);
+    subs.forEach((s,si)=>{
+      const ox=si*CW+CW/2;
+      const elevated=Math.max(0,100-s.stable_pct-s.at_risk_pct);
+      const atRisk=Math.max(0,s.at_risk_pct-s.high_risk_pct);
+      const data=[
+        {label:"Stable",val:s.stable_pct,color:"#10b981"},
+        {label:"Moderate",val:elevated,color:"#94a3b8"},
+        {label:"At-risk (Bipolar)",val:atRisk,color:"#ec4899"},
+        {label:"High-risk (Suicidal)",val:s.high_risk_pct,color:"#ef4444"},
+      ].filter(d=>d.val>0.1);
+      const g=svg.append("g").attr("transform",`translate(${ox},${cy})`);
+      g.selectAll("path").data(pieFn(data)).join("path")
+        .attr("fill",d=>d.data.color).attr("stroke","#fff").attr("stroke-width",1.5)
+        .attr("opacity",0)
+        .on("mousemove",(e,d)=>tipShow(`<b>${d.data.label}</b>: ${d.data.val.toFixed(1)}%`,e))
+        .on("mouseleave",tipHide)
+        .transition().duration(700).delay(si*130)
+        .attr("opacity",1)
+        .attrTween("d",function(d){
+          const i=d3.interpolate({startAngle:d.startAngle,endAngle:d.startAngle},d);
+          return t=>arcFn(i(t));
+        });
+      g.append("text").attr("text-anchor","middle").attr("dy","-0.15em")
+        .attr("font-size","13").attr("font-weight","800").attr("fill","#1e293b")
+        .text(fmt(s.total));
+      g.append("text").attr("text-anchor","middle").attr("dy","1em")
+        .attr("font-size","9").attr("font-weight","500").attr("fill","#94a3b8")
+        .text("mentions");
+      svg.append("text").attr("x",ox).attr("y",cy+R+18)
+        .attr("text-anchor","middle").attr("font-size","11").attr("font-weight","700")
+        .attr("fill","#334155").text("r/"+s.subreddit);
+      svg.append("text").attr("x",ox).attr("y",cy+R+33)
+        .attr("text-anchor","middle").attr("font-size","10").attr("font-weight","600")
+        .attr("fill",s.high_risk_pct>10?"#ef4444":"#94a3b8")
+        .text(`${s.high_risk_pct}% crisis`);
+    });
   }
   function renderMentions(v){
     $("#mentionSrc").textContent = v.srcLabel;
@@ -296,13 +375,53 @@
         <div class="sc">${r.f1_macro}<small>F1 · ${r.accuracy}% acc</small></div></div>`;
     }).join("");
   }
-  function renderSources(v){
-    if(!v.sources){$("#sourceBars").innerHTML='<div class="empty">Community submissions only.</div>';return;}
-    const total = Object.values(v.sources).reduce((a,b)=>a+b,0)||1;
-    const items=[["Reddit comments",v.sources.comment||0,"#ff5a1f"],["Reddit posts",v.sources.post||0,"var(--accent)"]];
-    $("#sourceBars").innerHTML = items.map(([n,c,col])=>`
-      <div class="hbar"><div class="top"><span class="name">${n}</span><span>${(100*c/total).toFixed(1)}%</span></div>
-      <div class="track"><span class="fill" style="width:${100*c/total}%;background:${col}"></span></div></div>`).join("");
+  function drawSources(v){
+    const el=$("#sourceBars"); el.innerHTML="";
+    if(!v.sources){el.innerHTML='<div class="empty">Community submissions only.</div>';return;}
+    const total=Object.values(v.sources).reduce((a,b)=>a+b,0)||1;
+    const items=[
+      {label:"Comments",count:v.sources.comment||0,color:"#ff5a1f"},
+      {label:"Posts",count:v.sources.post||0,color:"#0ea5e9"},
+    ];
+    const W=el.clientWidth||280, H=162;
+    const cx=W/2, cy=H-20;
+    const R=Math.min(cx-20,cy-6), ri=R*0.57;
+    const arcFn=d3.arc().innerRadius(ri).outerRadius(R).cornerRadius(5);
+    let startA=-Math.PI/2;
+    const segments=items.map(d=>{
+      const span=(d.count/total)*Math.PI;
+      const seg={...d,startAngle:startA,endAngle:startA+span};
+      startA+=span; return seg;
+    });
+    const svg=d3.select(el).append("svg").attr("width","100%").attr("height",H)
+      .attr("viewBox",`0 0 ${W} ${H}`);
+    const g=svg.append("g").attr("transform",`translate(${cx},${cy})`);
+    g.append("path").attr("d",arcFn({startAngle:-Math.PI/2,endAngle:Math.PI/2})).attr("fill","#f1f5f9");
+    segments.forEach((seg,i)=>{
+      g.append("path").attr("fill",seg.color).attr("opacity",0)
+        .on("mousemove",e=>tipShow(`<b>${seg.label}</b>: ${fmt(seg.count)} · ${(seg.count/total*100).toFixed(1)}%`,e))
+        .on("mouseleave",tipHide)
+        .transition().duration(850).delay(i*90)
+        .attr("opacity",1)
+        .attrTween("d",()=>{
+          const interp=d3.interpolate(
+            {startAngle:seg.startAngle,endAngle:seg.startAngle},
+            {startAngle:seg.startAngle,endAngle:seg.endAngle});
+          return t=>arcFn(interp(t));
+        });
+    });
+    g.append("text").attr("text-anchor","middle").attr("dy","-0.3em")
+      .attr("font-size","18").attr("font-weight","800").attr("fill","#1e293b").text(fmt(total));
+    g.append("text").attr("text-anchor","middle").attr("dy","0.9em")
+      .attr("font-size","9.5").attr("fill","#94a3b8").text("total items");
+    const legY=cy+18;
+    items.forEach((d,i)=>{
+      const lx=i===0?cx-68:cx+8;
+      svg.append("circle").attr("cx",lx).attr("cy",legY).attr("r",5).attr("fill",d.color);
+      svg.append("text").attr("x",lx+10).attr("y",legY).attr("dy","0.35em")
+        .attr("font-size","10.5").attr("fill","#334155")
+        .text(`${d.label} · ${(d.count/total*100).toFixed(0)}%`);
+    });
   }
   function renderCommunity(){
     const C = state.community;

@@ -26,7 +26,7 @@ from inference import EMOTION_META, LABELS  # noqa: E402
 SRC = os.path.join(ROOT, "results", "reddit_inference_results.csv")
 MASTER = os.path.join(ROOT, "results", "master_comparison_table.csv")
 OUT = os.path.join(WEBAPP, "data", "reddit_dashboard.json")
-MODEL_NOTE = "Ensemble (Track B) · 84.6% acc / 0.90 macro-F1"
+MODEL_NOTE = "Ensemble · 84.6% acc / 0.90 macro-F1"
 
 # Which Track B models can actually serve live inference (complete artifacts).
 # All six are now live: the transformers ship full HF artifacts; the classical
