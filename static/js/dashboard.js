@@ -369,10 +369,11 @@
     $("#lbList").innerHTML = v.leaderboard.map((r,i)=>{
       const color=LB_COLORS[r.model]||"var(--accent)";
       const rStyle=i<3?` style="${MEDAL_STYLE[i]}"`:` style="color:var(--faint)"`;
+      const f1disp=(r.f1_macro>1?r.f1_macro/100:r.f1_macro).toFixed(3);
       return `<div class="r ${i===0?'top':''}"><span class="rank"${rStyle}>${i<3?["#1","#2","#3"][i]:"#"+(i+1)}</span>
         <div><div class="nm">${r.model}${r.live?'<span class="live">LIVE</span>':''}</div>
           <div class="bar"><span style="width:${100*r.f1_macro/max}%;background:${color}"></span></div></div>
-        <div class="sc">${r.f1_macro}<small>F1 · ${r.accuracy}% acc</small></div></div>`;
+        <div class="sc">${f1disp}<small>F1 · ${r.accuracy}% acc</small></div></div>`;
     }).join("");
   }
   function drawSources(v){
@@ -469,6 +470,19 @@
     document.querySelectorAll(".nav a").forEach(n=>n.classList.remove("active")); a.classList.add("active");
     (id==="top"?$("#top"):document.getElementById(id))?.scrollIntoView({behavior:"smooth",block:"start"});
   });
+
+  // ---------- sidebar toggle ---------------------------------------------------
+  (function(){
+    const sidebar = document.querySelector(".sidebar");
+    const btn = $("#sidebarToggle");
+    if(!sidebar||!btn) return;
+    const COLLAPSED_KEY = "aird_sidebar_collapsed";
+    if(localStorage.getItem(COLLAPSED_KEY)==="1") sidebar.classList.add("collapsed");
+    btn.onclick = () => {
+      const isNowCollapsed = sidebar.classList.toggle("collapsed");
+      localStorage.setItem(COLLAPSED_KEY, isNowCollapsed ? "1" : "0");
+    };
+  })();
 
   window.AIRD = window.AIRD || {};
   window.AIRD.onNewSubmission = (community)=>{ state.community = community; render(); };

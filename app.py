@@ -229,6 +229,16 @@ def api_analyze_url():
     if len(op_text) < 3:
         return jsonify({"error": "This post has no analyzable text "
                                  "(image- or link-only post)."}), 422
+
+    # If the post is title-only (very short), enrich with the OP's own comments
+    # in the thread so the model has enough signal to work with.
+    if len(op_text) < 80:
+        op_author = post.get("author", "")
+        own_comments = [c["body"] for c in post["comments"]
+                        if c.get("author") == op_author and c.get("body")]
+        if own_comments:
+            op_text = op_text + "\n\n" + "\n\n".join(own_comments[:3])
+
     op_text = op_text[:MAX_CHARS]
 
     try:
